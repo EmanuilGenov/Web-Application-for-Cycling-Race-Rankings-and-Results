@@ -4,14 +4,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaceRankingsAndResults", "CyclingRaceRankingsAndResults\CyclingRaceRankingsAndResults.csproj", "{A6937E09-7FC4-4202-A02E-E330290226BB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2B90CD26-E072-4682-97F2-90EF667465DB} = {2B90CD26-E072-4682-97F2-90EF667465DB}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaceRankingsAndResults.Common", "CyclingRaceRankingsAndResults.Common\CyclingRaceRankingsAndResults.Common.csproj", "{9914637F-7675-4B42-BED3-0A63FFEE21D0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaceRankingsAndResults.Data", "CyclingRaceRankingsAndResults.Data\CyclingRaceRankingsAndResults.Data.csproj", "{80BE8CDE-CB37-4FB8-A7A8-9980FE4C85FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingRaceRankingsAndResults.Data.Models", "CyclingRaceRankingsAndResults.Data.Models\CyclingRaceRankingsAndResults.Data.Models.csproj", "{2B90CD26-E072-4682-97F2-90EF667465DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaceRankingsAndResults.Data.Models", "CyclingRaceRankingsAndResults.Data.Models\CyclingRaceRankingsAndResults.Data.Models.csproj", "{2B90CD26-E072-4682-97F2-90EF667465DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingRaceRankingsAndResults.Web.ViewModels", "CyclingRaceRankingsAndResults.Web.ViewModels\CyclingRaceRankingsAndResults.Web.ViewModels.csproj", "{AE447E15-2E76-417E-A678-DF8382056ED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaceRankingsAndResults.Web.ViewModels", "CyclingRaceRankingsAndResults.Web.ViewModels\CyclingRaceRankingsAndResults.Web.ViewModels.csproj", "{AE447E15-2E76-417E-A678-DF8382056ED1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F8603755-ED8E-40BA-AAFB-7B471F0063E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

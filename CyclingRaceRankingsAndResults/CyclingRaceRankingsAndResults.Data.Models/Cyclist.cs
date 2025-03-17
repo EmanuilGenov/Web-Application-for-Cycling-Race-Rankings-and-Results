@@ -1,6 +1,8 @@
-﻿namespace CyclingRaceRankingsAndResults.Data.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CyclingRaceRankingsAndResults.Data.Models
 {
-	public class Cyclist
+	public class Cyclist : IdentityUser
 	{
 		public int Id { get; set; } 
 		public string Name { get; set; } = null!;
