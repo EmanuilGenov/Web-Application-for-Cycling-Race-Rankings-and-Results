@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CyclingRaceRankingsAndResults.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,21 +54,21 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                 name: "Organisers",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Organisers", x => x.Name);
+                    table.PrimaryKey("PK_Organisers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Manager = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -188,13 +188,12 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                 name: "Races",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Distance = table.Column<int>(type: "int", nullable: false),
+                    Distance = table.Column<double>(type: "float", nullable: false),
                     OrganiserName = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -204,7 +203,7 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                         name: "FK_Races_Organisers_OrganiserName",
                         column: x => x.OrganiserName,
                         principalTable: "Organisers",
-                        principalColumn: "Name",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -212,14 +211,13 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                 name: "Cyclists",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Nationality = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: true)
+                    TeamId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -235,11 +233,10 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                 name: "Stages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RaceId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RaceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StageNumber = table.Column<int>(type: "int", nullable: false),
-                    Distance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Distance = table.Column<double>(type: "float", nullable: false),
                     StartLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EndLocation = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -258,10 +255,9 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                 name: "Participations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RaceId = table.Column<int>(type: "int", nullable: false),
-                    CyclistId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RaceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CyclistId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     OverallTime = table.Column<TimeSpan>(type: "time", nullable: true),
                     OverallRank = table.Column<int>(type: "int", nullable: false)
                 },
@@ -286,10 +282,9 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                 name: "Results",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StageId = table.Column<int>(type: "int", nullable: false),
-                    CyclistId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CyclistId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Time = table.Column<TimeSpan>(type: "time", nullable: true),
                     Rank = table.Column<int>(type: "int", nullable: false)
                 },

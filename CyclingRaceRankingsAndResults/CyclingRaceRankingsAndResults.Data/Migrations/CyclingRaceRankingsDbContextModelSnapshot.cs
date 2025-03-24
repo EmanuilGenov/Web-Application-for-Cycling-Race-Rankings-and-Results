@@ -24,11 +24,8 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
 
             modelBuilder.Entity("CyclingRaceRankingsAndResults.Data.Models.Cyclist", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -49,8 +46,8 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
+                    b.Property<string>("TeamId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -61,10 +58,14 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
 
             modelBuilder.Entity("CyclingRaceRankingsAndResults.Data.Models.Organiser", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -72,21 +73,19 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.ToTable("Organisers");
                 });
 
             modelBuilder.Entity("CyclingRaceRankingsAndResults.Data.Models.Participation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CyclistId")
-                        .HasColumnType("int");
+                    b.Property<string>("CyclistId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OverallRank")
                         .HasColumnType("int");
@@ -94,8 +93,9 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
                     b.Property<TimeSpan?>("OverallTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("RaceId")
-                        .HasColumnType("int");
+                    b.Property<string>("RaceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -108,17 +108,14 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
 
             modelBuilder.Entity("CyclingRaceRankingsAndResults.Data.Models.Race", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Distance")
-                        .HasColumnType("int");
+                    b.Property<double>("Distance")
+                        .HasColumnType("float");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -145,20 +142,19 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
 
             modelBuilder.Entity("CyclingRaceRankingsAndResults.Data.Models.Result", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CyclistId")
-                        .HasColumnType("int");
+                    b.Property<string>("CyclistId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Rank")
                         .HasColumnType("int");
 
-                    b.Property<int>("StageId")
-                        .HasColumnType("int");
+                    b.Property<string>("StageId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<TimeSpan?>("Time")
                         .HasColumnType("time");
@@ -174,21 +170,19 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
 
             modelBuilder.Entity("CyclingRaceRankingsAndResults.Data.Models.Stage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Distance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Distance")
+                        .HasColumnType("float");
 
                     b.Property<string>("EndLocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RaceId")
-                        .HasColumnType("int");
+                    b.Property<string>("RaceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StageNumber")
                         .HasColumnType("int");
@@ -206,11 +200,8 @@ namespace CyclingRaceRankingsAndResults.Data.Migrations
 
             modelBuilder.Entity("CyclingRaceRankingsAndResults.Data.Models.Team", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Country")
                         .IsRequired()

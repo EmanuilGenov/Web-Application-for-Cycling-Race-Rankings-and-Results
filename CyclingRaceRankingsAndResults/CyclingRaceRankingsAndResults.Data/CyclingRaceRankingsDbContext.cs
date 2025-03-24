@@ -1,4 +1,5 @@
 ﻿using CyclingRaceRankingsAndResults.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CyclingRaceRankingsAndResults.Data
 {
-	public class CyclingRaceRankingsDbContext : IdentityDbContext
+	public class CyclingRaceRankingsDbContext : IdentityDbContext<IdentityUser>
 	{
 		public CyclingRaceRankingsDbContext(DbContextOptions<CyclingRaceRankingsDbContext> options)
             : base(options)
