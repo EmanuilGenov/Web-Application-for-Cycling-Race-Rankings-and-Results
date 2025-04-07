@@ -1,4 +1,0 @@
-﻿namespace CyclingRaceRankingsAndResults.Web.ViewModels
-{
-
-}
