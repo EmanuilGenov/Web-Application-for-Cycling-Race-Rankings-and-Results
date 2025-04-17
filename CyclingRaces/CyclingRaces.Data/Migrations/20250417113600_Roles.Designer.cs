@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyclingRaces.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250407201859_seed")]
-    partial class seed
+    [Migration("20250417113600_Roles")]
+    partial class Roles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -94,7 +94,7 @@ namespace CyclingRaces.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrganiserName")
+                    b.Property<string>("OrganiserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -104,7 +104,7 @@ namespace CyclingRaces.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganiserName");
+                    b.HasIndex("OrganiserId");
 
                     b.ToTable("Races");
                 });
@@ -310,7 +310,7 @@ namespace CyclingRaces.Data.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+                    b.HasDiscriminator().HasValue("IdentityUser");
 
                     b.UseTphMappingStrategy();
                 });
@@ -442,7 +442,7 @@ namespace CyclingRaces.Data.Migrations
                 {
                     b.HasOne("CyclingRaces.Data.Models.Organiser", "Organiser")
                         .WithMany("Races")
-                        .HasForeignKey("OrganiserName")
+                        .HasForeignKey("OrganiserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

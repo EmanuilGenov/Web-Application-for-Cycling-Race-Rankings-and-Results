@@ -1671,6 +1671,22 @@
             "rid": "win"
           }
         }
+      },
+      "CyclingRaces.Data.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "8.0.6",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
+          "Microsoft.AspNetCore.Identity.UI": "8.0.6",
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.6"
+        },
+        "compile": {
+          "bin/placeholder/CyclingRaces.Data.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CyclingRaces.Data.Models.dll": {}
+        }
       }
     }
   },
@@ -4540,10 +4556,16 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "CyclingRaces.Data.Models/1.0.0": {
+      "type": "project",
+      "path": "../CyclingRaces.Data.Models/CyclingRaces.Data.Models.csproj",
+      "msbuildProject": "../CyclingRaces.Data.Models/CyclingRaces.Data.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "CyclingRaces.Data.Models >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 8.0.6",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.6",
       "Microsoft.AspNetCore.Identity.UI >= 8.0.6",
@@ -4583,7 +4605,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Emanuil\\source\\repos\\Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces.Data.Models\\CyclingRaces.Data.Models.csproj": {
+              "projectPath": "C:\\Users\\Emanuil\\source\\repos\\Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces.Data.Models\\CyclingRaces.Data.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

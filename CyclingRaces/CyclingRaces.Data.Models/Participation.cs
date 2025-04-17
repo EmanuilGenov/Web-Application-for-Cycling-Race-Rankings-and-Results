@@ -2,8 +2,8 @@
 {
 	public class Participation
 	{
-		public string Id { get; set; } = null!;
-		public string RaceId { get; set; } = null!;
+        public string Id { get; set; } = null!;
+        public string RaceId { get; set; } = null!;
 		public Race Race { get; set; } = null!;
 		public string CyclistId { get; set; } = null!;
 		public Cyclist Cyclist { get; set; } = null!;

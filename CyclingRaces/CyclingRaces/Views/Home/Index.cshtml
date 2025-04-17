@@ -2,7 +2,48 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero bg-light text-center py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Welcome to Cycling Races</h1>
+        <p class="lead">Track races, join events, and compete with the best from all over the world.</p>
+        <a href="/Races" class="btn btn-primary btn-lg mt-3">View Upcoming Races</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Featured Events</h2>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Skyline Dash</h5>
+                    <p class="card-text">A thrilling road race through the heart of Velandia City. 120km of fast-paced action!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Sunset Circuit</h5>
+                    <p class="card-text">Sprint your way across Crestoria’s scenic hills in this exciting 85km track race.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Join a Team</h5>
+                    <p class="card-text">Register as a Cyclist and join one of our top-tier racing teams to compete in epic events.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta bg-primary text-white py-5 mt-5">
+    <div class="container text-center">
+        <h2 class="mb-3">Ready to race?</h2>
+        <p class="mb-4">Sign up now and join a community of passionate cyclists and organizers.</p>
+        <a href="/Identity/Account/Register" class="btn btn-light btn-lg">Get Started</a>
+    </div>
 </div>

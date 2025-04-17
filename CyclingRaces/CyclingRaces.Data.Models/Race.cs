@@ -11,7 +11,7 @@
 
 		public ICollection<Stage> Stages { get; set; } = null!;
 		public ICollection<Participation> Participations { get; set; } = null!;
-		public string OrganiserName { get; set; } = null!;
+		public string OrganiserId { get; set; } = null!;
 		public Organiser Organiser { get; set; } = null!;
 	}
 }

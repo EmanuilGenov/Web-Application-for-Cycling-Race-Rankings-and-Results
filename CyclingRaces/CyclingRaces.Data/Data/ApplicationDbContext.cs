@@ -1,11 +1,12 @@
 ﻿using CyclingRaces.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CyclingRaces.Data
 {
-	public class ApplicationDbContext : IdentityDbContext
+	public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
@@ -59,7 +60,7 @@ namespace CyclingRaces.Data
 			modelBuilder.Entity<Race>()
 				.HasOne(r => r.Organiser)
 				.WithMany(o => o.Races)
-				.HasForeignKey(r => r.OrganiserName);
+				.HasForeignKey(r => r.OrganiserId);
 
 		}
 	}
