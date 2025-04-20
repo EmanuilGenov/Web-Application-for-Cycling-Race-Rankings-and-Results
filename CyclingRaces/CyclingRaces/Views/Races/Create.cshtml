@@ -44,8 +44,8 @@
                 <span asp-validation-for="Distance" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrganiserId" class="control-label"></label>
-                <select asp-for="OrganiserId" class ="form-control" asp-items="ViewBag.OrganiserName"></select>
+                <label asp-for="Organiser.Name" class="control-label">Organiser</label>
+                <select asp-for="Organiser.Name" class ="form-control" asp-items="ViewBag.OrganiserName"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

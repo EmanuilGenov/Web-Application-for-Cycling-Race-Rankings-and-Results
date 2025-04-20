@@ -48,7 +48,7 @@ namespace CyclingRaces.Controllers
         // GET: Races/Create
         public IActionResult Create()
         {
-            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Id");
+            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace CyclingRaces.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Id", race.OrganiserId);
+            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Name", race.OrganiserId);
             return View(race);
         }
 
@@ -82,7 +82,7 @@ namespace CyclingRaces.Controllers
             {
                 return NotFound();
             }
-            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Id", race.OrganiserId);
+            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Name", race.OrganiserId);
             return View(race);
         }
 

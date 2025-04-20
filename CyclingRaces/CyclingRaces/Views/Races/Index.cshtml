@@ -29,7 +29,7 @@
                 @Html.DisplayNameFor(model => model.Distance)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Organiser)
+                @Html.DisplayNameFor(model => model.Organiser.Name)
             </th>
             <th></th>
         </tr>
@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.Distance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Organiser.Id)
+                @Html.DisplayFor(modelItem => item.Organiser.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
