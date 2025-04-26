@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CyclingRaces")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bbc0f2ca92016627152d33c489f0246251ba210")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b64dc36b3cd77cb7ca247577139964e11749409")]
 [assembly: System.Reflection.AssemblyProductAttribute("CyclingRaces")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CyclingRaces")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

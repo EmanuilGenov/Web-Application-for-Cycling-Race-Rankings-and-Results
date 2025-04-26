@@ -95,7 +95,7 @@ namespace CyclingRaces.Data.Data
 
         private static async Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            string[] roles = new[] { "Cyclist", "Organizer", "Admin" };
+            string[] roles = new[] { "Cyclist", "Organiser", "Admin" };
 
             foreach (var role in roles)
             {

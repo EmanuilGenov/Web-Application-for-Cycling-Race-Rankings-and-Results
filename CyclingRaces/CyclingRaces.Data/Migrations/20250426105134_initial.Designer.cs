@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyclingRaces.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250417113600_Roles")]
-    partial class Roles
+    [Migration("20250426105134_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

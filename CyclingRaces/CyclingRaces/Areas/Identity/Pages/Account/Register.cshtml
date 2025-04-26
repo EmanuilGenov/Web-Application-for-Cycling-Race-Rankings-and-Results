@@ -13,6 +13,11 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
+                <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
+                <label asp-for="Input.Username">Username</label>
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -26,6 +31,24 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Nationality" class="form-label"></label>
+                <input asp-for="Input.Nationality" class="form-control" aria-required="true" placeholder="Enter your nationality" />
+                <span asp-validation-for="Input.Nationality" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.DateOfBirth" class="form-label"></label>
+                <input asp-for="Input.DateOfBirth" type="date" class="form-control" aria-required="true" />
+                <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <select asp-for="Input.AccountType" class="form-control" aria-required="true">
+                    <option value="">Select Account Type</option>
+                    <option value="Organiser">Organiser</option>
+                    <option value="Cyclist">Cyclist</option>
+                </select>
+                <span asp-validation-for="Input.AccountType" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>

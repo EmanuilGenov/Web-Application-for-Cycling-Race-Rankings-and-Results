@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using CyclingRaces.Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -52,6 +53,7 @@ namespace CyclingRaces.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public string AccountType { get; set; }
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -97,6 +99,23 @@ namespace CyclingRaces.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Account Type")]
+            public string AccountType { get; set; }
+
+            [Required]
+            [Display(Name = "Username")]
+            public string Username { get; set; }
+
+            [Required]
+            [Display(Name = "Nationality")]
+            public string Nationality { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Date of Birth")]
+            public DateTime DateOfBirth { get; set; }
         }
 
 
@@ -114,12 +133,29 @@ namespace CyclingRaces.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                if (user is Cyclist appUser)
+                {
+                    appUser.Nationality = Input.Nationality;
+                    appUser.DateOfBirth = Input.DateOfBirth;
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
+
+                    if (Input.AccountType == "Organiser")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Organiser");
+                    }
+                    else if (Input.AccountType == "Cyclist")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Cyclist");
+                    }
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
