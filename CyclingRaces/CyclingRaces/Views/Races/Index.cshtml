@@ -3,8 +3,16 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
+    string currentSort = ViewData["CurrentSort"] as string;
+
+    string Arrow(string field)
+    {
+        if (currentSort == field) return "↑";
+        if (currentSort == field + "_desc") return "↓";
+        return "";
+    }
+}
 <h1>Index</h1>
 
 <p>
@@ -32,26 +40,39 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">
+                    Name @Arrow("Name")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LocationSortParm"]">
+                    Location @Arrow("Location")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                    Date @Arrow("Date")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TypeSortParm"]">
+                    Type @Arrow("Type")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Distance)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DistanceSortParm"]">
+                    Distance @Arrow("Distance")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Organiser.Name)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["OrganiserSortParm"]">
+                    Organiser @Arrow("Organiser")
+                </a>
             </th>
             <th></th>
         </tr>
     </thead>
+
     <tbody>
 @foreach (var item in Model) {
         <tr>

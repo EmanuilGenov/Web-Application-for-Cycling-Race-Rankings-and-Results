@@ -1,0 +1,88 @@
+﻿@model CyclingRaces.Data.ViewModels.HistoryViewModel
+
+@{
+    ViewData["Title"] = "My Race History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Race History</h2>
+
+@if (Model.ParticipatedRaces.Any())
+{
+    <h3>Races I've Participated In</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Race</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Time</th>
+                <th>Rank</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.ParticipatedRaces)
+            {
+                <tr>
+                    <td>@p.Race.Name</td>
+                    <td>@p.Race.Date.ToShortDateString()</td>
+                    <td>@p.Race.Location</td>
+                    <td>@p.OverallTime?.ToString(@"hh\:mm\:ss") ?? "N/A"</td>
+                    <td>@(p.OverallRank == 0 ? "N/A" : p.OverallRank.ToString())</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.StageResults.Any())
+{
+    <h3>Stage Results</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Race</th>
+                <th>Stage Number</th>
+                <th>Time</th>
+                <th>Rank</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.StageResults)
+            {
+                <tr>
+                    <td>@r.Stage.Race.Name</td>
+                    <td>@r.Stage.StageNumber</td>
+                    <td>@r.Time?.ToString(@"hh\:mm\:ss") ?? "N/A"</td>
+                    <td>@(r.Rank == 0 ? "N/A" : r.Rank.ToString())</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.CreatedRaces.Any())
+{
+    <h3>Races I've Organised</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Distance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var race in Model.CreatedRaces)
+            {
+                <tr>
+                    <td>@race.Name</td>
+                    <td>@race.Date.ToShortDateString()</td>
+                    <td>@race.Location</td>
+                    <td>@race.Distance km</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

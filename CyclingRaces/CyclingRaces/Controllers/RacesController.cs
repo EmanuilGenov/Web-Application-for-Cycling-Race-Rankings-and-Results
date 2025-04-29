@@ -22,34 +22,56 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Races
-        public async Task<IActionResult> Index(string raceTypeFilter, string locationFilter, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string raceTypeFilter, string locationFilter, string searchString)
         {
-            var racesQuery = _context.Races
-                .Include(r => r.Organiser)
-                .AsQueryable();
+            ViewData["NameSortParm"] = sortOrder == "Name" ? "Name_desc" : "Name";
+            ViewData["LocationSortParm"] = sortOrder == "Location" ? "Location_desc" : "Location";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "Date_desc" : "Date";
+            ViewData["TypeSortParm"] = sortOrder == "Type" ? "Type_desc" : "Type";
+            ViewData["DistanceSortParm"] = sortOrder == "Distance" ? "Distance_desc" : "Distance";
+            ViewData["OrganiserSortParm"] = sortOrder == "Organiser" ? "Organiser_desc" : "Organiser";
+
+            ViewData["CurrentSort"] = sortOrder ?? "";
+
+
+            var races = _context.Races.Include(r => r.Organiser).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                races = races.Where(r => r.Name.Contains(searchString) || r.Organiser.Name.Contains(searchString));
+            }
 
             if (!string.IsNullOrEmpty(raceTypeFilter))
             {
-                racesQuery = racesQuery.Where(r => r.Type == raceTypeFilter);
+                races = races.Where(r => r.Type == raceTypeFilter);
             }
 
             if (!string.IsNullOrEmpty(locationFilter))
             {
-                racesQuery = racesQuery.Where(r => r.Location.Contains(locationFilter));
+                races = races.Where(r => r.Location.Contains(locationFilter));
             }
 
-            if (!string.IsNullOrEmpty(searchString))
+            races = sortOrder switch
             {
-                racesQuery = racesQuery.Where(r =>
-                    r.Name.Contains(searchString) ||
-                    r.Organiser.Name.Contains(searchString));
-            }
+                "name_desc" => races.OrderByDescending(r => r.Name),
+                "Location" => races.OrderBy(r => r.Location),
+                "location_desc" => races.OrderByDescending(r => r.Location),
+                "Date" => races.OrderBy(r => r.Date),
+                "date_desc" => races.OrderByDescending(r => r.Date),
+                "Type" => races.OrderBy(r => r.Type),
+                "type_desc" => races.OrderByDescending(r => r.Type),
+                "Distance" => races.OrderBy(r => r.Distance),
+                "distance_desc" => races.OrderByDescending(r => r.Distance),
+                "Organiser" => races.OrderBy(r => r.Organiser.Name),
+                "organiser_desc" => races.OrderByDescending(r => r.Organiser.Name),
+                _ => races.OrderBy(r => r.Name),
+            };
 
             ViewData["RaceTypes"] = new SelectList(await _context.Races.Select(r => r.Type).Distinct().ToListAsync(), raceTypeFilter);
             ViewData["Locations"] = new SelectList(await _context.Races.Select(r => r.Location).Distinct().ToListAsync(), locationFilter);
             ViewData["SearchString"] = searchString;
 
-            return View(await racesQuery.ToListAsync());
+            return View(await races.ToListAsync());
         }
 
         // GET: Races/Details/5
