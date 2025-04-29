@@ -26,15 +26,16 @@ namespace CyclingRaces.Controllers
         // GET: Races
         public async Task<IActionResult> Index(string sortOrder, string raceTypeFilter, string locationFilter, string searchString)
         {
-            ViewData["NameSortParm"] = sortOrder == "Name" ? "Name_desc" : "Name";
-            ViewData["LocationSortParm"] = sortOrder == "Location" ? "Location_desc" : "Location";
-            ViewData["DateSortParm"] = sortOrder == "Date" ? "Date_desc" : "Date";
-            ViewData["TypeSortParm"] = sortOrder == "Type" ? "Type_desc" : "Type";
-            ViewData["DistanceSortParm"] = sortOrder == "Distance" ? "Distance_desc" : "Distance";
-            ViewData["OrganiserSortParm"] = sortOrder == "Organiser" ? "Organiser_desc" : "Organiser";
+            sortOrder = sortOrder?.ToLower() ?? "";
 
-            ViewData["CurrentSort"] = sortOrder ?? "";
+            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["LocationSortParm"] = sortOrder == "location" ? "location_desc" : "location";
+            ViewData["DateSortParm"] = sortOrder == "date" ? "date_desc" : "date";
+            ViewData["TypeSortParm"] = sortOrder == "type" ? "type_desc" : "type";
+            ViewData["DistanceSortParm"] = sortOrder == "distance" ? "distance_desc" : "distance";
+            ViewData["OrganiserSortParm"] = sortOrder == "organiser" ? "organiser_desc" : "organiser";
 
+            ViewData["CurrentSort"] = sortOrder;
 
             var races = _context.Races.Include(r => r.Organiser).AsQueryable();
 
@@ -56,15 +57,15 @@ namespace CyclingRaces.Controllers
             races = sortOrder switch
             {
                 "name_desc" => races.OrderByDescending(r => r.Name),
-                "Location" => races.OrderBy(r => r.Location),
+                "location" => races.OrderBy(r => r.Location),
                 "location_desc" => races.OrderByDescending(r => r.Location),
-                "Date" => races.OrderBy(r => r.Date),
+                "date" => races.OrderBy(r => r.Date),
                 "date_desc" => races.OrderByDescending(r => r.Date),
-                "Type" => races.OrderBy(r => r.Type),
+                "type" => races.OrderBy(r => r.Type),
                 "type_desc" => races.OrderByDescending(r => r.Type),
-                "Distance" => races.OrderBy(r => r.Distance),
+                "distance" => races.OrderBy(r => r.Distance),
                 "distance_desc" => races.OrderByDescending(r => r.Distance),
-                "Organiser" => races.OrderBy(r => r.Organiser.Name),
+                "organiser" => races.OrderBy(r => r.Organiser.Name),
                 "organiser_desc" => races.OrderByDescending(r => r.Organiser.Name),
                 _ => races.OrderBy(r => r.Name),
             };

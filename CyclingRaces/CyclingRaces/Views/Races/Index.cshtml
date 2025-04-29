@@ -8,8 +8,8 @@
 
     string Arrow(string field)
     {
-        if (currentSort == field) return "↑";
-        if (currentSort == field + "_desc") return "↓";
+        if (currentSort == field.ToLower()) return "↑";
+        if (currentSort == field.ToLower() + "_desc") return "↓";
         return "";
     }
 }
