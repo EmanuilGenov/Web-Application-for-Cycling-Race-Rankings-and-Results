@@ -1,0 +1,34 @@
+﻿@model CyclingRaces.Web.ViewModels.Models.RaceResultViewModel
+
+@{
+    ViewData["Title"] = "Create Result";
+}
+
+<h2>Create Result</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="RaceId" class="control-label">Race</label>
+        <select asp-for="RaceId" class="form-control" asp-items="ViewBag.RaceId"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="CyclistId" class="control-label">Cyclist</label>
+        <select asp-for="CyclistId" class="form-control" asp-items="ViewBag.CyclistId"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="OverallTime" class="control-label"></label>
+        <input asp-for="OverallTime" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="OverallRank" class="control-label"></label>
+        <input asp-for="OverallRank" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

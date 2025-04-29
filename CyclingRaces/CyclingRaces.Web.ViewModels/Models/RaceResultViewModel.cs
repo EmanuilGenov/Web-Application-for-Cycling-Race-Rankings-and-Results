@@ -8,11 +8,12 @@ namespace CyclingRaces.Web.ViewModels.Models
 {
     public class RaceResultViewModel
     {
-        public string Id { get; set; } = null!;
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string RaceId { get; set; } = null!;
+        public string CyclistId { get; set; } = null!;
         public string Race { get; set; } = null!;
         public string CyclistName { get; set; } = null!;
         public TimeSpan? OverallTime { get; set; }
         public int OverallRank { get; set; }
-        public bool IsVolunteer { get; set; }
     }
 }

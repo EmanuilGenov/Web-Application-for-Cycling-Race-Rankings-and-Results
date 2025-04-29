@@ -1,19 +1,27 @@
 ﻿@model IEnumerable<CyclingRaces.Web.ViewModels.Models.RaceResultViewModel>
-
 @{
-    ViewData["Title"] = "Results";
+    ViewData["Title"] = "Race Results";
+    var currentFilter = ViewData["CurrentFilter"] as string;
 }
 
 <h1>Race Results</h1>
 
+<p>
+    <a asp-action="Create" class="btn btn-success">Add a New Result</a>
+</p>
+
+<form asp-action="Index" method="get" class="form-inline mb-3">
+    <input type="text" name="searchString" value="@currentFilter" class="form-control mr-2" placeholder="Search race or cyclist" />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Race</th>
-            <th>Cyclist</th>
-            <th>Time</th>
-            <th>Rank</th>
-            <th>Volunteer</th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["RaceSortParm"]">Race</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CyclistSortParm"]">Cyclist</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["TimeSortParm"]">Time</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["RankSortParm"]">Rank</a></th>
             <th></th>
         </tr>
     </thead>
@@ -23,9 +31,8 @@
             <tr>
                 <td>@item.Race</td>
                 <td>@item.CyclistName</td>
-                <td>@(item.OverallTime.HasValue ? item.OverallTime.ToString() : "-")</td>
+                <td>@(item.OverallTime?.ToString() ?? "-")</td>
                 <td>@item.OverallRank</td>
-                <td>@(item.IsVolunteer ? "Yes" : "No")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

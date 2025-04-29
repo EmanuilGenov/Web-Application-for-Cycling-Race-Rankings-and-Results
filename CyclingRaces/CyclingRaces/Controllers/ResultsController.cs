@@ -21,24 +21,52 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Results
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var raceResults = await _context.Results
+            ViewData["RaceSortParm"] = string.IsNullOrEmpty(sortOrder) ? "race_desc" : "";
+            ViewData["CyclistSortParm"] = sortOrder == "Cyclist" ? "cyclist_desc" : "Cyclist";
+            ViewData["TimeSortParm"] = sortOrder == "Time" ? "time_desc" : "Time";
+            ViewData["RankSortParm"] = sortOrder == "Rank" ? "rank_desc" : "Rank";
+            ViewData["CurrentFilter"] = searchString;
+
+            var results = await _context.Results
                 .Include(r => r.Cyclist)
                 .Include(r => r.Race)
-                .Select(r => new RaceResultViewModel
-                {
-                    Id = r.Id,
-                    Race = r.Race.Name,
-                    CyclistName = r.Cyclist.UserName,
-                    OverallTime = r.Time,
-                    OverallRank = r.Rank,
-                    IsVolunteer = r.IsVolunteer
-                })
                 .ToListAsync();
 
-            return View(raceResults);
+            var raceResults = results.Select(r => new RaceResultViewModel
+            {
+                Id = r.Id,
+                Race = r.Race.Name,
+                CyclistName = r.Cyclist.UserName,
+                OverallTime = r.Time,
+                OverallRank = r.Rank
+            });
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var lowerSearch = searchString.ToLower();
+                raceResults = raceResults.Where(r =>
+                    r.Race.ToLower().Contains(lowerSearch) ||
+                    r.CyclistName.ToLower().Contains(lowerSearch));
+            }
+
+            raceResults = sortOrder switch
+            {
+                "race_desc" => raceResults.OrderByDescending(r => r.Race),
+                "Cyclist" => raceResults.OrderBy(r => r.CyclistName),
+                "cyclist_desc" => raceResults.OrderByDescending(r => r.CyclistName),
+                "Time" => raceResults.OrderBy(r => r.OverallTime),
+                "time_desc" => raceResults.OrderByDescending(r => r.OverallTime),
+                "Rank" => raceResults.OrderBy(r => r.OverallRank),
+                "rank_desc" => raceResults.OrderByDescending(r => r.OverallRank),
+                _ => raceResults.OrderBy(r => r.Race)
+            };
+
+            return View(raceResults.ToList());
         }
+
+
 
         // GET: Results/Details/5
         public async Task<IActionResult> Details(string id)
@@ -58,8 +86,7 @@ namespace CyclingRaces.Controllers
                     Race = r.Race.Name,
                     CyclistName = r.Cyclist.UserName,
                     OverallTime = r.Time,
-                    OverallRank = r.Rank,
-                    IsVolunteer = r.IsVolunteer
+                    OverallRank = r.Rank
                 })
                 .FirstOrDefaultAsync();
 
@@ -74,7 +101,8 @@ namespace CyclingRaces.Controllers
         // GET: Results/Create
         public IActionResult Create()
         {
-            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id");
+            ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name");
+            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "UserName");
             return View();
         }
 
@@ -83,33 +111,46 @@ namespace CyclingRaces.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StageId,CyclistId,Time,Rank")] Result result)
+        public async Task<IActionResult> Create(RaceResultViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(result);
+                var result = new Result
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    RaceId = model.RaceId,
+                    CyclistId = model.CyclistId,
+                    Time = model.OverallTime,
+                    Rank = model.OverallRank
+                };
+                _context.Results.Add(result);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id", result.CyclistId);
-            return View(result);
+
+            ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name", model.RaceId);
+            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "UserName", model.CyclistId);
+            return View(model);
         }
 
         // GET: Results/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var result = await _context.Results.FindAsync(id);
-            if (result == null)
+            if (result == null) return NotFound();
+
+            var model = new RaceResultViewModel
             {
-                return NotFound();
-            }
-            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id", result.CyclistId);
-            return View(result);
+                Id = result.Id,
+                RaceId = result.RaceId,
+                CyclistId = result.CyclistId,
+                OverallTime = result.Time,
+                OverallRank = result.Rank
+            };
+
+            ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name", result.RaceId);
+            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "UserName", result.CyclistId);
+            return View(model);
         }
 
         // POST: Results/Edit/5
@@ -117,54 +158,59 @@ namespace CyclingRaces.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,StageId,CyclistId,Time,Rank")] Result result)
+        public async Task<IActionResult> Edit(string id, RaceResultViewModel model)
         {
-            if (id != result.Id)
-            {
-                return NotFound();
-            }
+            if (id != model.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var result = await _context.Results.FindAsync(id);
+                    if (result == null) return NotFound();
+
+                    result.RaceId = model.RaceId;
+                    result.CyclistId = model.CyclistId;
+                    result.Time = model.OverallTime;
+                    result.Rank = model.OverallRank;
+
                     _context.Update(result);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ResultExists(result.Id))
-                    {
+                    if (!_context.Results.Any(r => r.Id == model.Id))
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id", result.CyclistId);
-            return View(result);
+
+            ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name", model.RaceId);
+            ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "UserName", model.CyclistId);
+            return View(model);
         }
 
         // GET: Results/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var result = await _context.Results
+                .Include(r => r.Race)
                 .Include(r => r.Cyclist)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (result == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(r => r.Id == id);
 
-            return View(result);
+            if (result == null) return NotFound();
+
+            var model = new RaceResultViewModel
+            {
+                Id = result.Id,
+                Race = result.Race.Name,
+                CyclistName = result.Cyclist.UserName,
+                OverallTime = result.Time,
+                OverallRank = result.Rank
+            };
+
+            return View(model);
         }
 
         // POST: Results/Delete/5
@@ -176,9 +222,9 @@ namespace CyclingRaces.Controllers
             if (result != null)
             {
                 _context.Results.Remove(result);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

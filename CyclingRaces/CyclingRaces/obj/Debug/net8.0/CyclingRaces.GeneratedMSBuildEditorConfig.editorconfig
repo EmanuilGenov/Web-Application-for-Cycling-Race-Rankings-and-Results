@@ -98,12 +98,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Races/NotOraniserOfRaceError.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcTm90T3JhbmlzZXJPZlJhY2VFcnJvci5jc2h0bWw=
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Results/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Results/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Results/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Results/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Results/Index.cshtml]
