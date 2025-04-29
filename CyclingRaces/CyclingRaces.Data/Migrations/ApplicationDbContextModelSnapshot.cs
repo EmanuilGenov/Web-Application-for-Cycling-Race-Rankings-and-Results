@@ -44,37 +44,6 @@ namespace CyclingRaces.Data.Migrations
                     b.ToTable("Organisers");
                 });
 
-            modelBuilder.Entity("CyclingRaces.Data.Models.Participation", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CyclistId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsVolunteer")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("OverallRank")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan?>("OverallTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("RaceId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CyclistId");
-
-                    b.HasIndex("RaceId");
-
-                    b.ToTable("Participations");
-                });
-
             modelBuilder.Entity("CyclingRaces.Data.Models.Race", b =>
                 {
                     b.Property<string>("Id")
@@ -118,12 +87,15 @@ namespace CyclingRaces.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Rank")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsVolunteer")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("StageId")
+                    b.Property<string>("RaceId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Rank")
+                        .HasColumnType("int");
 
                     b.Property<TimeSpan?>("Time")
                         .HasColumnType("time");
@@ -132,39 +104,9 @@ namespace CyclingRaces.Data.Migrations
 
                     b.HasIndex("CyclistId");
 
-                    b.HasIndex("StageId");
-
-                    b.ToTable("Results");
-                });
-
-            modelBuilder.Entity("CyclingRaces.Data.Models.Stage", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("Distance")
-                        .HasColumnType("float");
-
-                    b.Property<string>("EndLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RaceId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("StageNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StartLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("RaceId");
 
-                    b.ToTable("Stages");
+                    b.ToTable("Results");
                 });
 
             modelBuilder.Entity("CyclingRaces.Data.Models.Team", b =>
@@ -424,25 +366,6 @@ namespace CyclingRaces.Data.Migrations
                     b.HasDiscriminator().HasValue("Cyclist");
                 });
 
-            modelBuilder.Entity("CyclingRaces.Data.Models.Participation", b =>
-                {
-                    b.HasOne("CyclingRaces.Data.Models.Cyclist", "Cyclist")
-                        .WithMany("Participations")
-                        .HasForeignKey("CyclistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CyclingRaces.Data.Models.Race", "Race")
-                        .WithMany("Participations")
-                        .HasForeignKey("RaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cyclist");
-
-                    b.Navigation("Race");
-                });
-
             modelBuilder.Entity("CyclingRaces.Data.Models.Race", b =>
                 {
                     b.HasOne("CyclingRaces.Data.Models.Organiser", "Organiser")
@@ -462,24 +385,13 @@ namespace CyclingRaces.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CyclingRaces.Data.Models.Stage", "Stage")
+                    b.HasOne("CyclingRaces.Data.Models.Race", "Race")
                         .WithMany("Results")
-                        .HasForeignKey("StageId")
+                        .HasForeignKey("RaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cyclist");
-
-                    b.Navigation("Stage");
-                });
-
-            modelBuilder.Entity("CyclingRaces.Data.Models.Stage", b =>
-                {
-                    b.HasOne("CyclingRaces.Data.Models.Race", "Race")
-                        .WithMany("Stages")
-                        .HasForeignKey("RaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Race");
                 });
@@ -555,16 +467,9 @@ namespace CyclingRaces.Data.Migrations
 
             modelBuilder.Entity("CyclingRaces.Data.Models.Race", b =>
                 {
-                    b.Navigation("Participations");
-
-                    b.Navigation("Stages");
+                    b.Navigation("Results");
 
                     b.Navigation("Volunteers");
-                });
-
-            modelBuilder.Entity("CyclingRaces.Data.Models.Stage", b =>
-                {
-                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("CyclingRaces.Data.Models.Team", b =>
@@ -574,8 +479,6 @@ namespace CyclingRaces.Data.Migrations
 
             modelBuilder.Entity("CyclingRaces.Data.Models.Cyclist", b =>
                 {
-                    b.Navigation("Participations");
-
                     b.Navigation("Results");
                 });
 #pragma warning restore 612, 618

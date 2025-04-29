@@ -14,6 +14,5 @@ namespace CyclingRaces.Data.Models
 		public string? TeamId { get; set; }
 		public Team? Team { get; set; }
 		public ICollection<Result>? Results { get; set; }
-		public ICollection<Participation>? Participations { get; set; }
 	}
 }

@@ -64,29 +64,13 @@ namespace CyclingRaces.Data.Data
                 context.Races.AddRange(races);
                 context.SaveChanges();
 
-                // Seed Stages
-                var stages = new List<Stage>
-                {
-                    new Stage { Id = Guid.NewGuid().ToString(), RaceId = races[0].Id, StageNumber = 1, Distance = 60.2, StartLocation = "Downtown", EndLocation = "Summit Peak" },
-                    new Stage { Id = Guid.NewGuid().ToString(), RaceId = races[0].Id, StageNumber = 2, Distance = 60.3, StartLocation = "Summit Peak", EndLocation = "City Center" }
-                };
-                context.Stages.AddRange(stages);
-                context.SaveChanges();
-
-                // Seed Participations
-                var participations = new List<Participation>
-                {
-                    new Participation { Id = Guid.NewGuid().ToString(), RaceId = races[0].Id, CyclistId = cyclists[0].Id, OverallTime = TimeSpan.FromHours(3.5), OverallRank = 1 },
-                    new Participation { Id = Guid.NewGuid().ToString(), RaceId = races[0].Id, CyclistId = cyclists[1].Id, OverallTime = TimeSpan.FromHours(3.7), OverallRank = 2 }
-                };
-                context.Participations.AddRange(participations);
-                context.SaveChanges();
-
                 // Seed Results
                 var results = new List<Result>
                 {
-                    new Result { Id = Guid.NewGuid().ToString(), StageId = stages[0].Id, CyclistId = cyclists[0].Id, Time = TimeSpan.FromMinutes(90), Rank = 1 },
-                    new Result { Id = Guid.NewGuid().ToString(), StageId = stages[0].Id, CyclistId = cyclists[1].Id, Time = TimeSpan.FromMinutes(95), Rank = 2 }
+                    new Result { Id = Guid.NewGuid().ToString(), //StageId = stages[0].Id, 
+                        CyclistId = cyclists[0].Id, Time = TimeSpan.FromMinutes(90), Rank = 1 },
+                    new Result { Id = Guid.NewGuid().ToString(), //StageId = stages[0].Id,
+                        CyclistId = cyclists[1].Id, Time = TimeSpan.FromMinutes(95), Rank = 2 }
                 };
                 context.Results.AddRange(results);
                 context.SaveChanges();

@@ -17,151 +17,131 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CyclingRaces
 build_property.RootNamespace = CyclingRaces
-build_property.ProjectDir = C:\Users\Emanuil\Source\Repos\Web-Application-for-Cycling-Race-Rankings-and-Results\CyclingRaces\CyclingRaces\
+build_property.ProjectDir = C:\Users\Emanuil\Desktop\DiplomenProekt\CyclingRaces\CyclingRaces\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Emanuil\Source\Repos\Web-Application-for-Cycling-Race-Rankings-and-Results\CyclingRaces\CyclingRaces
+build_property.MSBuildProjectDirectory = C:\Users\Emanuil\Desktop\DiplomenProekt\CyclingRaces\CyclingRaces
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Logout.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/History/Index.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/History/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGlzdG9yeVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Home/Index.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Races/Create.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Races/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Races/Delete.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Races/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Races/Details.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Races/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Races/Edit.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Races/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Races/Index.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Races/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Races/NotOraniserOfRaceError.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Races/NotOraniserOfRaceError.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcTm90T3JhbmlzZXJPZlJhY2VFcnJvci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Results/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Results/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Results/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Results/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Results/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdWx0c1xJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Shared/Error.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Teams/Create.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Teams/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhbXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Teams/Delete.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Teams/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhbXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Teams/Details.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Teams/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhbXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Teams/Edit.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Teams/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhbXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Teams/Index.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Teams/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhbXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/_ViewImports.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/_ViewStart.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emanuil/Source/Repos/Web-Application-for-Cycling-Race-Rankings-and-Results/CyclingRaces/CyclingRaces/Views/Shared/_Layout.cshtml]
+[C:/Users/Emanuil/Desktop/DiplomenProekt/CyclingRaces/CyclingRaces/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-acuazdueem

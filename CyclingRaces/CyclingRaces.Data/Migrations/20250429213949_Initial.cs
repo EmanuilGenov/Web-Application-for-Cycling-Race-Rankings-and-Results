@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CyclingRaces.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -106,6 +106,7 @@ namespace CyclingRaces.Data.Migrations
                     Nationality = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TeamId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RaceId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -125,32 +126,15 @@ namespace CyclingRaces.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_AspNetUsers_Races_RaceId",
+                        column: x => x.RaceId,
+                        principalTable: "Races",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_AspNetUsers_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stages",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RaceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StageNumber = table.Column<int>(type: "int", nullable: false),
-                    Distance = table.Column<double>(type: "float", nullable: false),
-                    StartLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EndLocation = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Stages_Races_RaceId",
-                        column: x => x.RaceId,
-                        principalTable: "Races",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,41 +223,15 @@ namespace CyclingRaces.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Participations",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RaceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CyclistId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OverallTime = table.Column<TimeSpan>(type: "time", nullable: true),
-                    OverallRank = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Participations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Participations_AspNetUsers_CyclistId",
-                        column: x => x.CyclistId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Participations_Races_RaceId",
-                        column: x => x.RaceId,
-                        principalTable: "Races",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Results",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CyclistId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RaceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Time = table.Column<TimeSpan>(type: "time", nullable: true),
-                    Rank = table.Column<int>(type: "int", nullable: false)
+                    Rank = table.Column<int>(type: "int", nullable: false),
+                    IsVolunteer = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -285,9 +243,9 @@ namespace CyclingRaces.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Results_Stages_StageId",
-                        column: x => x.StageId,
-                        principalTable: "Stages",
+                        name: "FK_Results_Races_RaceId",
+                        column: x => x.RaceId,
+                        principalTable: "Races",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -325,6 +283,11 @@ namespace CyclingRaces.Data.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_RaceId",
+                table: "AspNetUsers",
+                column: "RaceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_TeamId",
                 table: "AspNetUsers",
                 column: "TeamId");
@@ -337,16 +300,6 @@ namespace CyclingRaces.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Participations_CyclistId",
-                table: "Participations",
-                column: "CyclistId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Participations_RaceId",
-                table: "Participations",
-                column: "RaceId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Races_OrganiserId",
                 table: "Races",
                 column: "OrganiserId");
@@ -357,13 +310,8 @@ namespace CyclingRaces.Data.Migrations
                 column: "CyclistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Results_StageId",
+                name: "IX_Results_RaceId",
                 table: "Results",
-                column: "StageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Stages_RaceId",
-                table: "Stages",
                 column: "RaceId");
         }
 
@@ -386,9 +334,6 @@ namespace CyclingRaces.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Participations");
-
-            migrationBuilder.DropTable(
                 name: "Results");
 
             migrationBuilder.DropTable(
@@ -398,13 +343,10 @@ namespace CyclingRaces.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Stages");
+                name: "Races");
 
             migrationBuilder.DropTable(
                 name: "Teams");
-
-            migrationBuilder.DropTable(
-                name: "Races");
 
             migrationBuilder.DropTable(
                 name: "Organisers");

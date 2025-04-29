@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WvZB1LUj2Dc=",
+  "dgSpecHash": "iYF9c2T+bi8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces.Data\\CyclingRaces.Data.csproj",
+  "projectFilePath": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces.Data\\CyclingRaces.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Emanuil\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Emanuil\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

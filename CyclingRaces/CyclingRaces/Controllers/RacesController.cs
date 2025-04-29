@@ -243,7 +243,7 @@ namespace CyclingRaces.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterForRace(string raceId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            /*var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return Challenge(); // or RedirectToAction("Login", "Account");
@@ -265,7 +265,7 @@ namespace CyclingRaces.Controllers
                 _context.Participations.Add(participation);
                 await _context.SaveChangesAsync();
             }
-
+*/
             return RedirectToAction("Index");
         }
 
@@ -273,7 +273,7 @@ namespace CyclingRaces.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsVolunteer(string raceId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            /*var user = await _userManager.GetUserAsync(User);
             if (user == null) return Challenge();
 
             var alreadyJoined = await _context.Participations
@@ -292,7 +292,7 @@ namespace CyclingRaces.Controllers
                 _context.Participations.Add(volunteerParticipation);
                 await _context.SaveChangesAsync();
             }
-
+*/
             return RedirectToAction("Details", new { id = raceId });
         }
     }

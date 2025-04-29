@@ -7,7 +7,7 @@
 
 <h2>My Race History</h2>
 
-@if (Model.ParticipatedRaces.Any())
+@* @if (Model.ParticipatedRaces.Any())
 {
     <h3>Races I've Participated In</h3>
     <table class="table">
@@ -34,7 +34,7 @@
         </tbody>
     </table>
 }
-
+ *@
 @if (Model.StageResults.Any())
 {
     <h3>Stage Results</h3>
@@ -51,8 +51,6 @@
             @foreach (var r in Model.StageResults)
             {
                 <tr>
-                    <td>@r.Stage.Race.Name</td>
-                    <td>@r.Stage.StageNumber</td>
                     <td>@r.Time?.ToString(@"hh\:mm\:ss") ?? "N/A"</td>
                     <td>@(r.Rank == 0 ? "N/A" : r.Rank.ToString())</td>
                 </tr>

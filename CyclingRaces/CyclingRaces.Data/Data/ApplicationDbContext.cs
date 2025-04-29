@@ -15,10 +15,8 @@ namespace CyclingRaces.Data
 
 		public DbSet<Cyclist> Cyclists { get; set; }
 		public DbSet<Result> Results { get; set; }
-		public DbSet<Stage> Stages { get; set; }
 		public DbSet<Race> Races { get; set; }
 		public DbSet<Team> Teams { get; set; }
-		public DbSet<Participation> Participations { get; set; }
 		public DbSet<Organiser> Organisers { get; set; }
 
 
@@ -36,26 +34,6 @@ namespace CyclingRaces.Data
 				.HasOne(r => r.Cyclist)
 				.WithMany(c => c.Results)
 				.HasForeignKey(r => r.CyclistId);
-
-			modelBuilder.Entity<Result>()
-				.HasOne(r => r.Stage)
-				.WithMany(s => s.Results)
-				.HasForeignKey(r => r.StageId);
-
-			modelBuilder.Entity<Stage>()
-				.HasOne(s => s.Race)
-				.WithMany(r => r.Stages)
-				.HasForeignKey(s => s.RaceId);
-
-			modelBuilder.Entity<Participation>()
-				.HasOne(p => p.Race)
-				.WithMany(r => r.Participations)
-				.HasForeignKey(p => p.RaceId);
-
-			modelBuilder.Entity<Participation>()
-				.HasOne(p => p.Cyclist)
-				.WithMany(c => c.Participations)
-				.HasForeignKey(p => p.CyclistId);
 
 			modelBuilder.Entity<Race>()
 				.HasOne(r => r.Organiser)

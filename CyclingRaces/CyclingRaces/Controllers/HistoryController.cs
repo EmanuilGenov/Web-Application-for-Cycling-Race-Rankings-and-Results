@@ -26,11 +26,8 @@ namespace CyclingRaces.Controllers
 
             // Check if user is a Cyclist
             var cyclist = await _context.Cyclists
-                .Include(c => c.Participations)
-                    .ThenInclude(p => p.Race)
                 .Include(c => c.Results)
-                    .ThenInclude(r => r.Stage)
-                        .ThenInclude(s => s.Race)
+                    .ThenInclude(p => p.Race)
                 .FirstOrDefaultAsync(c => c.Id == userId);
 
             // Check if user is an Organiser
@@ -40,7 +37,6 @@ namespace CyclingRaces.Controllers
 
             var viewModel = new HistoryViewModel
             {
-                ParticipatedRaces = cyclist?.Participations ?? new List<Participation>(),
                 StageResults = cyclist?.Results ?? new List<Result>(),
                 CreatedRaces = organiser?.Races ?? new List<Race>()
             };

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CyclingRaces.Data;
 using CyclingRaces.Data.Models;
+using CyclingRaces.Web.ViewModels.Models;
 
 namespace CyclingRaces.Controllers
 {
@@ -22,8 +23,11 @@ namespace CyclingRaces.Controllers
         // GET: Results
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Results.Include(r => r.Cyclist).Include(r => r.Stage);
-            return View(await applicationDbContext.ToListAsync());
+            var raceResults = await _context.Results
+        .Include(r => r.Cyclist)
+        .ToListAsync();
+
+            return View(raceResults);
         }
 
         // GET: Results/Details/5
@@ -36,7 +40,6 @@ namespace CyclingRaces.Controllers
 
             var result = await _context.Results
                 .Include(r => r.Cyclist)
-                .Include(r => r.Stage)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (result == null)
             {
@@ -50,7 +53,6 @@ namespace CyclingRaces.Controllers
         public IActionResult Create()
         {
             ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id");
-            ViewData["StageId"] = new SelectList(_context.Stages, "Id", "Id");
             return View();
         }
 
@@ -68,7 +70,6 @@ namespace CyclingRaces.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id", result.CyclistId);
-            ViewData["StageId"] = new SelectList(_context.Stages, "Id", "Id", result.StageId);
             return View(result);
         }
 
@@ -86,7 +87,6 @@ namespace CyclingRaces.Controllers
                 return NotFound();
             }
             ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id", result.CyclistId);
-            ViewData["StageId"] = new SelectList(_context.Stages, "Id", "Id", result.StageId);
             return View(result);
         }
 
@@ -123,7 +123,6 @@ namespace CyclingRaces.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CyclistId"] = new SelectList(_context.Cyclists, "Id", "Id", result.CyclistId);
-            ViewData["StageId"] = new SelectList(_context.Stages, "Id", "Id", result.StageId);
             return View(result);
         }
 
@@ -137,7 +136,6 @@ namespace CyclingRaces.Controllers
 
             var result = await _context.Results
                 .Include(r => r.Cyclist)
-                .Include(r => r.Stage)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (result == null)
             {

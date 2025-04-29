@@ -8431,11 +8431,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces\\CyclingRaces.csproj",
+      "projectUniqueName": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\CyclingRaces.csproj",
       "projectName": "CyclingRaces",
-      "projectPath": "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces\\CyclingRaces.csproj",
+      "projectPath": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\CyclingRaces.csproj",
       "packagesPath": "C:\\Users\\Emanuil\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces\\obj\\",
+      "outputPath": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -8457,11 +8457,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces.Data\\CyclingRaces.Data.csproj": {
-              "projectPath": "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces.Data\\CyclingRaces.Data.csproj"
+            "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces.Data\\CyclingRaces.Data.csproj": {
+              "projectPath": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces.Data\\CyclingRaces.Data.csproj"
             },
-            "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces.Web.ViewModels\\CyclingRaces.Web.ViewModels.csproj": {
-              "projectPath": "C:\\Users\\Emanuil\\Source\\Repos\\Web-Application-for-Cycling-Race-Rankings-and-Results\\CyclingRaces\\CyclingRaces.Web.ViewModels\\CyclingRaces.Web.ViewModels.csproj"
+            "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces.Web.ViewModels\\CyclingRaces.Web.ViewModels.csproj": {
+              "projectPath": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces.Web.ViewModels\\CyclingRaces.Web.ViewModels.csproj"
             }
           }
         }
