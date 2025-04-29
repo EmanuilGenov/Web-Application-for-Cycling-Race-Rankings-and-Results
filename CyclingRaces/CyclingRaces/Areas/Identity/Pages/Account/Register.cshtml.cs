@@ -105,10 +105,6 @@ namespace CyclingRaces.Areas.Identity.Pages.Account
             public string AccountType { get; set; }
 
             [Required]
-            [Display(Name = "Username")]
-            public string Username { get; set; }
-
-            [Required]
             [Display(Name = "Nationality")]
             public string Nationality { get; set; }
 
@@ -129,34 +125,24 @@ namespace CyclingRaces.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-                if (user is Cyclist appUser)
-                {
-                    appUser.Nationality = Input.Nationality;
-                    appUser.DateOfBirth = Input.DateOfBirth;
-                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-
-                    if (Input.AccountType == "Organiser")
-                    {
-                        await _userManager.AddToRoleAsync(user, "Organiser");
-                    }
-                    else if (Input.AccountType == "Cyclist")
-                    {
-                        await _userManager.AddToRoleAsync(user, "Cyclist");
-                    }
-
-
                     _logger.LogInformation("User created a new account with password.");
+
+                    // 🔹 Assign role
+                    if (Input.AccountType == "Organiser" || Input.AccountType == "Cyclist")
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.AccountType);
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -164,7 +150,7 @@ namespace CyclingRaces.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", userId, code, returnUrl },
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -172,21 +158,17 @@ namespace CyclingRaces.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
                     }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
+
                 foreach (var error in result.Errors)
-                {
                     ModelState.AddModelError(string.Empty, error.Description);
-                }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 

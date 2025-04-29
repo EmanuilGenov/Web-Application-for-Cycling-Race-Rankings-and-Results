@@ -48,6 +48,20 @@
             @Html.DisplayFor(model => model.Organiser.Name)
         </dd>
     </dl>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- Join as Cyclist -->
+        <form asp-action="RegisterForRace" asp-controller="Races" method="post">
+            <input type="hidden" name="raceId" value="@Model.Id" />
+            <button type="submit" class="btn btn-primary">Join Race</button>
+        </form>
+
+        <!-- Join as Volunteer -->
+        <form asp-action="RegisterAsVolunteer" asp-controller="Races" method="post" class="mt-2">
+            <input type="hidden" name="raceId" value="@Model.Id" />
+            <button type="submit" class="btn btn-secondary">Join as Volunteer</button>
+        </form>
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

@@ -1,5 +1,6 @@
 using CyclingRaces.Data;
 using CyclingRaces.Data.Data;
+using CyclingRaces.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,7 @@ namespace CyclingRaces
 			builder.Services.AddDefaultIdentity<IdentityUser>(options => 
 			{
 				options.SignIn.RequireConfirmedAccount = true;
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.Zero;
                 options.Lockout.MaxFailedAccessAttempts = 5;
             })
                 .AddRoles<IdentityRole>()

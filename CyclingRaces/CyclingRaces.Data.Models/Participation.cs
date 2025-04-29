@@ -9,5 +9,6 @@
 		public Cyclist Cyclist { get; set; } = null!;
 		public TimeSpan? OverallTime { get; set; }
 		public int OverallRank { get; set; }
-	}
+        public bool IsVolunteer { get; set; }
+    }
 }
