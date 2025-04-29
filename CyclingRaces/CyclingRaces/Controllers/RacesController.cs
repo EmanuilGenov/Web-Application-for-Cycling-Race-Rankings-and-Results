@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CyclingRaces.Data;
 using CyclingRaces.Data.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace CyclingRaces.Controllers
 {
@@ -20,10 +22,34 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Races
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string raceTypeFilter, string locationFilter, string searchString)
         {
-            var applicationDbContext = _context.Races.Include(r => r.Organiser);
-            return View(await applicationDbContext.ToListAsync());
+            var racesQuery = _context.Races
+                .Include(r => r.Organiser)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(raceTypeFilter))
+            {
+                racesQuery = racesQuery.Where(r => r.Type == raceTypeFilter);
+            }
+
+            if (!string.IsNullOrEmpty(locationFilter))
+            {
+                racesQuery = racesQuery.Where(r => r.Location.Contains(locationFilter));
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                racesQuery = racesQuery.Where(r =>
+                    r.Name.Contains(searchString) ||
+                    r.Organiser.Name.Contains(searchString));
+            }
+
+            ViewData["RaceTypes"] = new SelectList(await _context.Races.Select(r => r.Type).Distinct().ToListAsync(), raceTypeFilter);
+            ViewData["Locations"] = new SelectList(await _context.Races.Select(r => r.Location).Distinct().ToListAsync(), locationFilter);
+            ViewData["SearchString"] = searchString;
+
+            return View(await racesQuery.ToListAsync());
         }
 
         // GET: Races/Details/5
@@ -46,6 +72,7 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Races/Create
+        [Authorize(Roles ="Admin,Organiser")]
         public IActionResult Create()
         {
             ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Name");
@@ -57,6 +84,7 @@ namespace CyclingRaces.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> Create([Bind("Id,Name,Location,Date,Type,Distance,OrganiserName")] Race race)
         {
             if (ModelState.IsValid)
@@ -70,6 +98,7 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Races/Edit/5
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -91,6 +120,7 @@ namespace CyclingRaces.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Location,Date,Type,Distance,OrganiserName")] Race race)
         {
             if (id != race.Id)

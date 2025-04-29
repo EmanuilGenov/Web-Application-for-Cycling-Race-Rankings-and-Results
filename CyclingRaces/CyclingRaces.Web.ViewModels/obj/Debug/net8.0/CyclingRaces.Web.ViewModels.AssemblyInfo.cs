@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CyclingRaces.Web.ViewModels")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b64dc36b3cd77cb7ca247577139964e11749409")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b6c154993f1f2b0257f444a00ad317adca8799a")]
 [assembly: System.Reflection.AssemblyProductAttribute("CyclingRaces.Web.ViewModels")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CyclingRaces.Web.ViewModels")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

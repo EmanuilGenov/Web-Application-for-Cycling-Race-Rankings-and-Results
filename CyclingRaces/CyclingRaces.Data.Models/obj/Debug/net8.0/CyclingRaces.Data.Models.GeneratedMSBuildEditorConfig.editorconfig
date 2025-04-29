@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CyclingRaces.Data.Models
-build_property.ProjectDir = C:\Users\Emanuil\source\repos\Cycling-Race-Rankings-and-Results\CyclingRaces\CyclingRaces.Data.Models\
+build_property.ProjectDir = C:\Users\Emanuil\Source\Repos\Web-Application-for-Cycling-Race-Rankings-and-Results\CyclingRaces\CyclingRaces.Data.Models\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
