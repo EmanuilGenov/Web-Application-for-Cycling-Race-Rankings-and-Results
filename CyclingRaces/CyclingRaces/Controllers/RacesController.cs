@@ -153,6 +153,7 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Races/Delete/5
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -174,6 +175,7 @@ namespace CyclingRaces.Controllers
         // POST: Races/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var race = await _context.Races.FindAsync(id);
