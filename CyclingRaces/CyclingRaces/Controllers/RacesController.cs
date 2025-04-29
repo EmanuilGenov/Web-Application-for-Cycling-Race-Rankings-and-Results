@@ -99,7 +99,7 @@ namespace CyclingRaces.Controllers
         [Authorize(Roles ="Admin,Organiser")]
         public IActionResult Create()
         {
-            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Name");
+            ViewData["OrganiserId"] = new SelectList(_context.Organisers, "Id", "Name");
             return View();
         }
 
@@ -109,15 +109,37 @@ namespace CyclingRaces.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Organiser")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Location,Date,Type,Distance,OrganiserName")] Race race)
+        public async Task<IActionResult> Create([Bind("Name,Location,Date,Type,Distance,OrganiserId")] Race race)
         {
             if (ModelState.IsValid)
             {
+                race.Id = Guid.NewGuid().ToString(); // Auto-generate race ID
+
+                if (!User.IsInRole("Admin"))
+                {
+                    // Set organiser based on the current logged-in user
+                    var user = await _userManager.GetUserAsync(User);
+                    var organiser = await _context.Organisers.FirstOrDefaultAsync(o => o.Id == user.Id);
+
+                    if (organiser == null)
+                    {
+                        ModelState.AddModelError("", "Current user is not linked to an organiser account.");
+                        return View(race);
+                    }
+
+                    race.OrganiserId = organiser.Id;
+                }
+
                 _context.Add(race);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrganiserName"] = new SelectList(_context.Organisers, "Id", "Name", race.OrganiserId);
+
+            if (User.IsInRole("Admin"))
+            {
+                ViewData["OrganiserId"] = new SelectList(_context.Organisers, "Id", "Name", race.OrganiserId);
+            }
+
             return View(race);
         }
 
