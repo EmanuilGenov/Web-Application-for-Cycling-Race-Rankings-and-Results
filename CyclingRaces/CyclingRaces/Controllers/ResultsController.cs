@@ -24,8 +24,18 @@ namespace CyclingRaces.Controllers
         public async Task<IActionResult> Index()
         {
             var raceResults = await _context.Results
-        .Include(r => r.Cyclist)
-        .ToListAsync();
+                .Include(r => r.Cyclist)
+                .Include(r => r.Race)
+                .Select(r => new RaceResultViewModel
+                {
+                    Id = r.Id,
+                    Race = r.Race.Name,
+                    CyclistName = r.Cyclist.UserName,
+                    OverallTime = r.Time,
+                    OverallRank = r.Rank,
+                    IsVolunteer = r.IsVolunteer
+                })
+                .ToListAsync();
 
             return View(raceResults);
         }
@@ -40,7 +50,19 @@ namespace CyclingRaces.Controllers
 
             var result = await _context.Results
                 .Include(r => r.Cyclist)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(r => r.Race)
+                .Where(r => r.Id == id)
+                .Select(r => new RaceResultViewModel
+                {
+                    Id = r.Id,
+                    Race = r.Race.Name,
+                    CyclistName = r.Cyclist.UserName,
+                    OverallTime = r.Time,
+                    OverallRank = r.Rank,
+                    IsVolunteer = r.IsVolunteer
+                })
+                .FirstOrDefaultAsync();
+
             if (result == null)
             {
                 return NotFound();

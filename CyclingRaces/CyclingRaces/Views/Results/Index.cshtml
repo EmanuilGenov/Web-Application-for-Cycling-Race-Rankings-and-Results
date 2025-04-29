@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CyclingRaces.Web.ViewModels.Models.RaceResultViewModel>
+
+@{
+    ViewData["Title"] = "Results";
+}
+
+<h1>Race Results</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Race</th>
+            <th>Cyclist</th>
+            <th>Time</th>
+            <th>Rank</th>
+            <th>Volunteer</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Race</td>
+                <td>@item.CyclistName</td>
+                <td>@(item.OverallTime.HasValue ? item.OverallTime.ToString() : "-")</td>
+                <td>@item.OverallRank</td>
+                <td>@(item.IsVolunteer ? "Yes" : "No")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

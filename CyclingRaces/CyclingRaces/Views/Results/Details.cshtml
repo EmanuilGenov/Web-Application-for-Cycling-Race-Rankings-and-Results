@@ -1,0 +1,30 @@
+﻿@model CyclingRaces.Web.ViewModels.Models.RaceResultViewModel
+
+@{
+    ViewData["Title"] = "Result Details";
+}
+
+<h1>Result Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Race</dt>
+        <dd class="col-sm-10">@Model.Race</dd>
+
+        <dt class="col-sm-2">Cyclist</dt>
+        <dd class="col-sm-10">@Model.CyclistName</dd>
+
+        <dt class="col-sm-2">Time</dt>
+        <dd class="col-sm-10">@Model.OverallTime</dd>
+
+        <dt class="col-sm-2">Rank</dt>
+        <dd class="col-sm-10">@Model.OverallRank</dd>
+
+        <dt class="col-sm-2">Volunteer</dt>
+        <dd class="col-sm-10">@(Model.IsVolunteer ? "Yes" : "No")</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
