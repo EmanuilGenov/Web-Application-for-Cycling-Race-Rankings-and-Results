@@ -1,34 +1,51 @@
-# 🚴 Cycling Races App
+# 🚴‍♂️ Cycling Races Web Application
 
-A web application built with **ASP.NET Core MVC** that allows users to view, manage, and participate in cycling races. The app includes race listings, race details, participant management, and admin functionality for managing races.
+This web application allows users to create, manage, and participate in cycling races. It supports event organization, participant registration, results management, and automatic ranking generation.
 
-## 📋 Features
+## 📌 Features
 
-- View upcoming and past cycling races
-- Register for races as a participant
-- Admin interface to add, edit, or delete races
-- Search and filter races by date, location, or difficulty
-- Responsive and user-friendly UI built with Razor views
+- 🛠️ Create and manage cycling races
+- 👤 User registration and login (cyclists & organizers)
+- 📝 Participant and volunteer sign-up
+- 🏁 Record and view race results
+- 🥇 Auto-generated rankings
+- 📊 Filter and sort events
+- 📁 Admin-only management options
 
-## 🛠️ Tech Stack
+## 🧱 Technologies Used
 
-- **Backend:** C# ASP.NET Core MVC
-- **Frontend:** Razor Views, Bootstrap
-- **Database:** Entity Framework Core with SQL Server
-- **Authentication:** ASP.NET Identity (optional)
+- **ASP.NET Core MVC** – Backend framework
+- **Entity Framework Core** – ORM and database access
+- **SQL Server** – Relational database
+- **Razor Views (.cshtml)** – Server-side rendering
+- **JavaScript, Bootstrap 5, CSS** – Frontend styling and interactivity
+- **ASP.NET Core Identity** – Authentication and authorization
+
+## 🧑‍💻 User Roles
+
+- **Admin** – Full access to all features and users
+- **Organiser** – Can create and manage races
+- **Cyclist** – Can register for races and view results
 
 ## 🚀 Getting Started
 
-### Prerequisites
+1. Clone the repository:
+   git clone https://github.com/EmanuilGenov/Web-Application-for-Cycling-Race-Rankings-and-Results#
+   
+Open the solution in Visual Studio 2022+
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- SQL Server (local or remote)
-- Visual Studio 2022+ (recommended)
+Update appsettings.json with your local SQL Server connection string.
 
-### Setup Instructions
+Apply migrations and seed the database:
 
-1. **Clone the repository:**
+Update-Database
+Run the application using:
 
-   ```bash
-   git clone [https://github.com/EmanuilGenov/Web-Application-for-Cycling-Race-Rankings-and-Results.git]
-   cd Web-Application-for-Cycling-Race-Rankings-and-Results
+dotnet run
+
+🔐 Authentication
+The system uses ASP.NET Core Identity for:
+
+Email-based registration
+
+Role-based access (Admin, Organiser, Cyclist)
