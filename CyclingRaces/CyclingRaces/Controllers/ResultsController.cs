@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CyclingRaces.Data;
 using CyclingRaces.Data.Models;
 using CyclingRaces.Web.ViewModels.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CyclingRaces.Controllers
 {
@@ -99,6 +100,7 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Results/Create
+        [Authorize(Roles = "Admin,Organiser")]
         public IActionResult Create()
         {
             ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name");
@@ -134,6 +136,7 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Results/Edit/5
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> Edit(string id)
         {
             var result = await _context.Results.FindAsync(id);
@@ -158,6 +161,7 @@ namespace CyclingRaces.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> Edit(string id, RaceResultViewModel model)
         {
             if (id != model.Id) return NotFound();
@@ -192,6 +196,7 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Results/Delete/5
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> Delete(string id)
         {
             var result = await _context.Results
@@ -216,6 +221,7 @@ namespace CyclingRaces.Controllers
         // POST: Results/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var result = await _context.Results.FindAsync(id);
