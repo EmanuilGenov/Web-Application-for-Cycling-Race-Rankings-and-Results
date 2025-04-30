@@ -32,15 +32,15 @@ This web application allows users to create, manage, and participate in cycling 
 1. Clone the repository:
    git clone https://github.com/EmanuilGenov/Web-Application-for-Cycling-Race-Rankings-and-Results#
    
-Open the solution in Visual Studio 2022+
+2. Open the solution in Visual Studio 2022+
 
-Update appsettings.json with your local SQL Server connection string.
+3. Update appsettings.json with your local SQL Server connection string.
 
-Apply migrations and seed the database:
+4. Apply migrations and seed the database:
 
-Update-Database
-Run the application using:
+5. Update-Database
 
+6. Run the application using:
 dotnet run
 
 🔐 Authentication
