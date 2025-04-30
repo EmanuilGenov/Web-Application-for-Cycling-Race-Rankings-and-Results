@@ -15,9 +15,9 @@ namespace CyclingRaces.Controllers
     public class RacesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public RacesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public RacesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -41,7 +41,7 @@ namespace CyclingRaces.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                races = races.Where(r => r.Name.Contains(searchString) || r.Organiser.Name.Contains(searchString));
+                races = races.Where(r => r.Name.Contains(searchString) || r.Organiser.UserName.Contains(searchString));
             }
 
             if (!string.IsNullOrEmpty(raceTypeFilter))
@@ -65,8 +65,8 @@ namespace CyclingRaces.Controllers
                 "type_desc" => races.OrderByDescending(r => r.Type),
                 "distance" => races.OrderBy(r => r.Distance),
                 "distance_desc" => races.OrderByDescending(r => r.Distance),
-                "organiser" => races.OrderBy(r => r.Organiser.Name),
-                "organiser_desc" => races.OrderByDescending(r => r.Organiser.Name),
+                "organiser" => races.OrderBy(r => r.Organiser.UserName),
+                "organiser_desc" => races.OrderByDescending(r => r.Organiser.UserName),
                 _ => races.OrderBy(r => r.Name),
             };
 

@@ -18,15 +18,12 @@ namespace CyclingRaces
 				options.UseSqlServer(connectionString));
 			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-			builder.Services.AddDefaultIdentity<IdentityUser>(options => 
-			{
-				options.SignIn.RequireConfirmedAccount = true;
-				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.Zero;
-                options.Lockout.MaxFailedAccessAttempts = 5;
-            })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-			builder.Services.AddControllersWithViews();
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+				options.SignIn.RequireConfirmedAccount = true)
+				.AddRoles<IdentityRole>()
+				.AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddControllersWithViews();
 
 			var app = builder.Build();
 

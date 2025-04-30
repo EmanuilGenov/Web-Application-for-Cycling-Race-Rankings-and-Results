@@ -45,7 +45,7 @@
             @Html.DisplayNameFor(model => model.Organiser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Organiser.Name)
+            @Html.DisplayFor(model => model.Organiser.UserName)
         </dd>
     </dl>
     @if (User.Identity.IsAuthenticated)

@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace CyclingRaces.Data.Models
 {
-	public class Cyclist : IdentityUser
-	{
-		public string Nationality { get; set; } = null!;
-		public DateTime DateOfBirth { get; set; }
-		public string? TeamId { get; set; }
+	public class Cyclist : ApplicationUser
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
+        // Foreign key to ApplicationUser
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
+
+        public string? TeamId { get; set; }
 		public Team? Team { get; set; }
 		public ICollection<Result>? Results { get; set; }
 	}

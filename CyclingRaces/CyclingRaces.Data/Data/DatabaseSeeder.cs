@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CyclingRaces.Data;
 using CyclingRaces.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,16 +16,14 @@ namespace CyclingRaces.Data.Data
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                // Ensure roles exist
                 var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 EnsureRolesAsync(roleManager).Wait();
 
-                if (context.Cyclists.Any())
-                {
-                    return; // DB has been seeded
-                }
+                var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-                // Seed Teams
+                if (context.Teams.Any())
+                    return; // Already seeded
+
                 var teams = new List<Team>
                 {
                     new Team { Id = Guid.NewGuid().ToString(), Name = "Speed Hawks", Country = "USA", Manager = "Alice Johnson" },
@@ -38,47 +35,62 @@ namespace CyclingRaces.Data.Data
                     new Team { Id = Guid.NewGuid().ToString(), Name = "Sakura Speed", Country = "Japan", Manager = "Akira Tanaka" },
                     new Team { Id = Guid.NewGuid().ToString(), Name = "Crimson Wheels", Country = "Canada", Manager = "Emily Carter" },
                     new Team { Id = Guid.NewGuid().ToString(), Name = "Velox Tigers", Country = "Italy", Manager = "Giovanni Rossi" },
-                    new Team { Id = Guid.NewGuid().ToString(), Name = "Green Trail", Country = "Australia", Manager = "Sophie Wright" },
+                    new Team { Id = Guid.NewGuid().ToString(), Name = "Green Trail", Country = "Australia", Manager = "Sophie Wright" }
                 };
                 context.Teams.AddRange(teams);
-
-                // Seed Organisers
-                var organisers = new List<Organiser>
-                {
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Global Cycling Org", Email = "info@gco.org", PasswordHash = "hash1" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Pedal Masters", Email = "contact@pedalmasters.org", PasswordHash = "hash2" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Ride Europe", Email = "events@rideeurope.com", PasswordHash = "hash3" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Asia Spin League", Email = "admin@asl.asia", PasswordHash = "hash4" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Velocity Events", Email = "support@velocity.events", PasswordHash = "hash5" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Downhill Racing", Email = "team@downhill.org", PasswordHash = "hash6" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Tour Cyclers", Email = "info@tourcyclers.com", PasswordHash = "hash7" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Urban Wheelers", Email = "urban@wheelers.com", PasswordHash = "hash8" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "Mountain Push", Email = "hello@mountainpush.net", PasswordHash = "hash9" },
-                    new Organiser { Id = Guid.NewGuid().ToString(), Name = "World Spin Org", Email = "contact@worldspin.org", PasswordHash = "hash10" },
-                };
-                context.Organisers.AddRange(organisers);
+                context.SaveChanges();
 
                 var teamIds = teams.Select(t => t.Id).ToList();
 
+                var organisers = new List<Organiser>
+                {
+                    new Organiser { UserName = "GlobalCyclingOrg", Email = "info@gco.org", Nationality = "USA", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "PedalMasters", Email = "contact@pedalmasters.org", Nationality = "UK", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "RideEurope", Email = "events@rideeurope.com", Nationality = "France", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "AsiaSpinLeague", Email = "admin@asl.asia", Nationality = "Japan", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "VelocityEvents", Email = "support@velocity.events", Nationality = "UAE", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "DownhillRacing", Email = "team@downhill.org", Nationality = "Canada", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "TourCyclers", Email = "info@tourcyclers.com", Nationality = "Italy", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "UrbanWheelers", Email = "urban@wheelers.com", Nationality = "Norway", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "MountainPush", Email = "hello@mountainpush.net", Nationality = "Colombia", DateOfBirth = new DateTime(1980, 1, 1) },
+                    new Organiser { UserName = "WorldSpinOrg", Email = "contact@worldspin.org", Nationality = "Australia", DateOfBirth = new DateTime(1980, 1, 1) }
+                };
+
+                foreach (var organiser in organisers)
+                {
+                    organiser.EmailConfirmed = true;
+                    var result = userManager.CreateAsync(organiser, "Organiser@123").Result;
+                    if (result.Succeeded)
+                        userManager.AddToRoleAsync(organiser, "Organiser").Wait();
+                    else
+                        throw new Exception($"Failed to create organiser {organiser.UserName}: " +
+                            string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+
                 var cyclists = new List<Cyclist>
                 {
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "john.doe", Email = "john.doe@example.com", PasswordHash = "hash1", Nationality = "USA", DateOfBirth = new DateTime(1995, 5, 12), TeamId = teamIds[0] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "emma.taylor", Email = "emma.t@example.com", PasswordHash = "hash2", Nationality = "UK", DateOfBirth = new DateTime(1993, 3, 22), TeamId = teamIds[1] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "luc.bernard", Email = "luc.b@example.com", PasswordHash = "hash3", Nationality = "France", DateOfBirth = new DateTime(1990, 8, 10), TeamId = teamIds[2] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "ali.farooq", Email = "ali.f@example.com", PasswordHash = "hash4", Nationality = "UAE", DateOfBirth = new DateTime(1998, 12, 1), TeamId = teamIds[3] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "nils.hansen", Email = "nils.h@example.com", PasswordHash = "hash5", Nationality = "Norway", DateOfBirth = new DateTime(1992, 7, 14), TeamId = teamIds[4] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "maria.gomez", Email = "maria.g@example.com", PasswordHash = "hash6", Nationality = "Colombia", DateOfBirth = new DateTime(1994, 6, 30), TeamId = teamIds[5] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "hiro.yamada", Email = "hiro.y@example.com", PasswordHash = "hash7", Nationality = "Japan", DateOfBirth = new DateTime(1991, 9, 5), TeamId = teamIds[6] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "oliver.lee", Email = "oliver.l@example.com", PasswordHash = "hash8", Nationality = "Canada", DateOfBirth = new DateTime(1996, 2, 18), TeamId = teamIds[7] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "giulia.bianchi", Email = "giulia.b@example.com", PasswordHash = "hash9", Nationality = "Italy", DateOfBirth = new DateTime(1993, 4, 28), TeamId = teamIds[8] },
-                    new Cyclist { Id = Guid.NewGuid().ToString(), UserName = "jack.brown", Email = "jack.b@example.com", PasswordHash = "hash10", Nationality = "Australia", DateOfBirth = new DateTime(1997, 11, 11), TeamId = teamIds[9] },
+                    new Cyclist { UserName = "john.doe", Email = "john.doe@example.com", Nationality = "USA", DateOfBirth = new DateTime(1995, 5, 12), TeamId = teamIds[0] },
+                    new Cyclist { UserName = "emma.taylor", Email = "emma.t@example.com", Nationality = "UK", DateOfBirth = new DateTime(1993, 3, 22), TeamId = teamIds[1] },
+                    new Cyclist { UserName = "luc.bernard", Email = "luc.b@example.com", Nationality = "France", DateOfBirth = new DateTime(1990, 8, 10), TeamId = teamIds[2] },
+                    new Cyclist { UserName = "ali.farooq", Email = "ali.f@example.com", Nationality = "UAE", DateOfBirth = new DateTime(1998, 12, 1), TeamId = teamIds[3] },
+                    new Cyclist { UserName = "nils.hansen", Email = "nils.h@example.com", Nationality = "Norway", DateOfBirth = new DateTime(1992, 7, 14), TeamId = teamIds[4] }
                 };
-                context.Cyclists.AddRange(cyclists);
 
-                var cyclistIds = cyclists.Select(c => c.Id).ToList();
-                var organiserIds = organisers.Select(o => o.Id).ToList();
+                foreach (var cyclist in cyclists)
+                {
+                    cyclist.EmailConfirmed = true;
+                    var result = userManager.CreateAsync(cyclist, "Cyclist@123").Result;
+                    if (result.Succeeded)
+                        userManager.AddToRoleAsync(cyclist, "Cyclist").Wait();
+                    else
+                        throw new Exception($"Failed to create cyclist {cyclist.UserName}: " +
+                            string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
 
-                // Seed Races
+                context.SaveChanges();
+
+                var organiserIds = context.Users.Where(u => u is Organiser).Select(u => u.Id).ToList();
+
                 var races = new List<Race>();
                 for (int i = 0; i < 10; i++)
                 {
@@ -94,10 +106,11 @@ namespace CyclingRaces.Data.Data
                     });
                 }
                 context.Races.AddRange(races);
+                context.SaveChanges();
 
                 var raceIds = races.Select(r => r.Id).ToList();
+                var cyclistIds = context.Users.Where(u => u is Cyclist).Select(u => u.Id).ToList();
 
-                // Seed Results
                 var results = new List<Result>();
                 int rank = 1;
                 foreach (var raceId in raceIds)
@@ -116,27 +129,27 @@ namespace CyclingRaces.Data.Data
                     }
                 }
                 context.Results.AddRange(results);
-
-                var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                SeedAdminUserAsync(userManager).Wait();
-
                 context.SaveChanges();
+
+                SeedAdminUserAsync(userManager).Wait();
             }
         }
 
-        private static async Task SeedAdminUserAsync(UserManager<IdentityUser> userManager)
+        private static async Task SeedAdminUserAsync(UserManager<ApplicationUser> userManager)
         {
             string adminEmail = "admin@cyclingraces.com";
-            string adminPassword = "Admin@123"; // Use a strong password
+            string adminPassword = "Admin@123";
 
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
             {
-                adminUser = new IdentityUser
+                adminUser = new ApplicationUser
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    Nationality = "Bulgarian",
+                    DateOfBirth = new DateTime(2007, 1, 23)
                 };
 
                 var result = await userManager.CreateAsync(adminUser, adminPassword);
