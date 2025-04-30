@@ -97,7 +97,7 @@ namespace CyclingRaces.Controllers
         }
 
         // GET: Races/Create
-        [Authorize(Roles ="Admin,Organiser")]
+        [Authorize(Roles = "Admin,Organiser")]
         public IActionResult Create()
         {
             ViewData["OrganiserId"] = new SelectList(_context.Organisers, "Id", "Name");
@@ -242,59 +242,44 @@ namespace CyclingRaces.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Cyclist")]
         public async Task<IActionResult> RegisterForRace(string raceId)
         {
-            /*var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var user = await _userManager.GetUserAsync(User);
+
+            var participation = new Result
             {
-                return Challenge(); // or RedirectToAction("Login", "Account");
-            }
+                Id = Guid.NewGuid().ToString(),
+                CyclistId = user.Id,
+                RaceId = raceId,
+                IsVolunteer = false
+            };
 
-            var alreadyRegistered = await _context.Participations
-                .AnyAsync(p => p.CyclistId == user.Id && p.RaceId == raceId);
+            _context.Results.Add(participation);
+            await _context.SaveChangesAsync();
 
-            if (!alreadyRegistered)
-            {
-                var participation = new Participation
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    CyclistId = user.Id,
-                    RaceId = raceId,
-                    IsVolunteer = false
-                };
-
-                _context.Participations.Add(participation);
-                await _context.SaveChangesAsync();
-            }
-*/
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Cyclist")]
         public async Task<IActionResult> RegisterAsVolunteer(string raceId)
         {
-            /*var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Challenge();
+            var user = await _userManager.GetUserAsync(User);
 
-            var alreadyJoined = await _context.Participations
-                .AnyAsync(p => p.RaceId == raceId && p.CyclistId == user.Id);
-
-            if (!alreadyJoined)
+            var participation = new Result
             {
-                var volunteerParticipation = new Participation
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    RaceId = raceId,
-                    CyclistId = user.Id,
-                    IsVolunteer = true
-                };
+                Id = Guid.NewGuid().ToString(),
+                CyclistId = user.Id,
+                RaceId = raceId,
+                IsVolunteer = true
+            };
 
-                _context.Participations.Add(volunteerParticipation);
-                await _context.SaveChangesAsync();
-            }
-*/
-            return RedirectToAction("Details", new { id = raceId });
+            _context.Results.Add(participation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }
 }

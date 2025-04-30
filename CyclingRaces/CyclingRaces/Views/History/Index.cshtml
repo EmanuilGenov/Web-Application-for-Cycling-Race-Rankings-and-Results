@@ -7,7 +7,12 @@
 
 <h2>My Race History</h2>
 
-@* @if (Model.ParticipatedRaces.Any())
+@if (!Model.StageResults.Any() && !Model.CreatedRaces.Any())
+{
+    <p>You haven't participated in or created any races yet.</p>
+}
+
+@if (Model.StageResults.Any())
 {
     <h3>Races I've Participated In</h3>
     <table class="table">
@@ -21,36 +26,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var p in Model.ParticipatedRaces)
-            {
-                <tr>
-                    <td>@p.Race.Name</td>
-                    <td>@p.Race.Date.ToShortDateString()</td>
-                    <td>@p.Race.Location</td>
-                    <td>@p.OverallTime?.ToString(@"hh\:mm\:ss") ?? "N/A"</td>
-                    <td>@(p.OverallRank == 0 ? "N/A" : p.OverallRank.ToString())</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
- *@
-@if (Model.StageResults.Any())
-{
-    <h3>Stage Results</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Race</th>
-                <th>Stage Number</th>
-                <th>Time</th>
-                <th>Rank</th>
-            </tr>
-        </thead>
-        <tbody>
             @foreach (var r in Model.StageResults)
             {
                 <tr>
+                    <td>@r.Race.Name</td>
+                    <td>@r.Race.Date.ToShortDateString()</td>
+                    <td>@r.Race.Location</td>
                     <td>@r.Time?.ToString(@"hh\:mm\:ss") ?? "N/A"</td>
                     <td>@(r.Rank == 0 ? "N/A" : r.Rank.ToString())</td>
                 </tr>

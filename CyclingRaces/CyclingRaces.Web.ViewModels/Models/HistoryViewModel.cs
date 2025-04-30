@@ -4,7 +4,7 @@ namespace CyclingRaces.Data.ViewModels
 {
     public class HistoryViewModel
     {
-        public ICollection<Result> StageResults { get; set; } = new List<Result>();
-        public ICollection<Race> CreatedRaces { get; set; } = new List<Race>();
+        public List<Result> StageResults { get; set; } = new List<Result>();
+        public List<Race> CreatedRaces { get; set; } = new List<Race>();
     }
 }

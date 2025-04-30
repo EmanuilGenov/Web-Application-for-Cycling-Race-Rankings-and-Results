@@ -24,21 +24,19 @@ namespace CyclingRaces.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            // Check if user is a Cyclist
             var cyclist = await _context.Cyclists
-                .Include(c => c.Results)
-                    .ThenInclude(p => p.Race)
-                .FirstOrDefaultAsync(c => c.Id == userId);
+                .Include(o => o.Results)
+                .FirstOrDefaultAsync(o => o.UserId == userId);
 
-            // Check if user is an Organiser
+
             var organiser = await _context.Organisers
                 .Include(o => o.Races)
-                .FirstOrDefaultAsync(o => o.Id == userId);
+                .FirstOrDefaultAsync(o => o.UserId == userId); 
 
             var viewModel = new HistoryViewModel
             {
-                StageResults = cyclist?.Results ?? new List<Result>(),
-                CreatedRaces = organiser?.Races ?? new List<Race>()
+                StageResults = cyclist?.Results?.ToList() ?? new List<Result>(),
+                CreatedRaces = organiser?.Races?.ToList() ?? new List<Race>()
             };
 
             return View(viewModel);
