@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingRaces", "CyclingRaces\CyclingRaces.csproj", "{E17444B0-E8FB-4FAB-9C14-6E425A4B9BD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaces", "CyclingRaces\CyclingRaces.csproj", "{E17444B0-E8FB-4FAB-9C14-6E425A4B9BD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingRaces.Data", "CyclingRaces.Data\CyclingRaces.Data.csproj", "{5778B77F-E752-4B66-9F8F-5F9A1636E714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaces.Data", "CyclingRaces.Data\CyclingRaces.Data.csproj", "{5778B77F-E752-4B66-9F8F-5F9A1636E714}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingRaces.Data.Models", "CyclingRaces.Data.Models\CyclingRaces.Data.Models.csproj", "{40C3856E-E803-457A-BFDB-40D3988FA68E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaces.Data.Models", "CyclingRaces.Data.Models\CyclingRaces.Data.Models.csproj", "{40C3856E-E803-457A-BFDB-40D3988FA68E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingRaces.Web.ViewModels", "CyclingRaces.Web.ViewModels\CyclingRaces.Web.ViewModels.csproj", "{C8C5403D-8543-4AFF-BA12-370E93885C2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingRaces.Web.ViewModels", "CyclingRaces.Web.ViewModels\CyclingRaces.Web.ViewModels.csproj", "{C8C5403D-8543-4AFF-BA12-370E93885C2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingRaces.Tests", "CyclingRaces.Tests\CyclingRaces.Tests.csproj", "{058B4A15-C07C-42A3-85B4-C52A1FFFCB70}"
+	ProjectSection(ProjectDependencies) = postProject
+		{40C3856E-E803-457A-BFDB-40D3988FA68E} = {40C3856E-E803-457A-BFDB-40D3988FA68E}
+		{5778B77F-E752-4B66-9F8F-5F9A1636E714} = {5778B77F-E752-4B66-9F8F-5F9A1636E714}
+		{C8C5403D-8543-4AFF-BA12-370E93885C2B} = {C8C5403D-8543-4AFF-BA12-370E93885C2B}
+		{E17444B0-E8FB-4FAB-9C14-6E425A4B9BD7} = {E17444B0-E8FB-4FAB-9C14-6E425A4B9BD7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,10 @@ Global
 		{C8C5403D-8543-4AFF-BA12-370E93885C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8C5403D-8543-4AFF-BA12-370E93885C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8C5403D-8543-4AFF-BA12-370E93885C2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{058B4A15-C07C-42A3-85B4-C52A1FFFCB70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058B4A15-C07C-42A3-85B4-C52A1FFFCB70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058B4A15-C07C-42A3-85B4-C52A1FFFCB70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058B4A15-C07C-42A3-85B4-C52A1FFFCB70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
