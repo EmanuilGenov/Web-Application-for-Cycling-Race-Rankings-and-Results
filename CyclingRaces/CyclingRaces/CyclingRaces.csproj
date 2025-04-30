@@ -25,4 +25,8 @@
     <ProjectReference Include="..\CyclingRaces.Web.ViewModels\CyclingRaces.Web.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transition: 0.3s ease-in-out;
+}

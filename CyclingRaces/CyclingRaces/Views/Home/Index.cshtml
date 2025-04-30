@@ -1,51 +1,215 @@
-﻿@{
+﻿@model List<CyclingRaces.Data.Models.Race>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="hero bg-light text-center py-5">
+<!-- Hero Section with Background Image -->
+<section class="hero position-relative text-white py-5" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('/img/cycling-hero.jpg') no-repeat center center/cover; min-height: 500px;">
+    <div class="container py-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 400px;">
+        <h1 class="display-3 fw-bold mb-3 text-center">Welcome to <span class="text-warning">Cycling Races</span></h1>
+        <p class="lead text-center mb-4 fs-4 col-md-8">Track races, join events, and compete with the best from around the world.</p>
+        <div class="d-flex gap-3">
+            <a href="/Races" class="btn btn-warning btn-lg fw-semibold shadow-lg">View Upcoming Races</a>
+            <a href="/Identity/Account/Register" class="btn btn-outline-light btn-lg shadow-lg">Sign Up</a>
+        </div>
+    </div>
+    <div class="wave-bottom position-absolute bottom-0 w-100">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
+            <path fill="#ffffff" fill-opacity="1" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,100L1360,100C1280,100,1120,100,960,100C800,100,640,100,480,100C320,100,160,100,80,100L0,100Z"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="container my-5">
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 bg-light shadow-sm">
+                <i class="bi bi-trophy fs-1 text-warning mb-3"></i>
+                <h3 class="fw-bold">@Model.Count</h3>
+                <p class="text-muted mb-0">Upcoming Races</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 bg-light shadow-sm">
+                <i class="bi bi-people fs-1 text-primary mb-3"></i>
+                <h3 class="fw-bold">500+</h3>
+                <p class="text-muted mb-0">Active Cyclists</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 bg-light shadow-sm">
+                <i class="bi bi-geo-alt fs-1 text-danger mb-3"></i>
+                <h3 class="fw-bold">25+</h3>
+                <p class="text-muted mb-0">Countries</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Events -->
+<section class="container my-5 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-star-fill text-warning me-2"></i>Featured Events</h2>
+        <a href="/Races" class="btn btn-outline-primary">View All Races <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var race in Model.Take(3))
+        {
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow rounded-4 overflow-hidden">
+                    <div class="bg-primary text-white p-2 text-center">
+                        <span class="badge bg-warning">@race.Type Race</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-3">@race.Name</h5>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-geo-alt text-danger me-2"></i>
+                            <span>@race.Location</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-rulers text-primary me-2"></i>
+                            <span>@race.Distance km</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-calendar-event text-success me-2"></i>
+                            <span>@(race.Date.ToString("MMM dd, yyyy") ?? "TBA")</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 p-4 pt-0">
+                        <a href="/Races/Details/@race.Id" class="btn btn-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- Join a Team Section -->
+<section class="bg-light py-5 my-5 rounded-4 shadow-sm">
     <div class="container">
-        <h1 class="display-4 fw-bold">Welcome to Cycling Races</h1>
-        <p class="lead">Track races, join events, and compete with the best from all over the world.</p>
-        <a href="/Races" class="btn btn-primary btn-lg mt-3">View Upcoming Races</a>
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="~/images/cycling-team.jpg" alt="Cycling Team" class="img-fluid rounded-4 shadow">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">Join a Professional Cycling Team</h2>
+                <p class="lead mb-4">Connect with top-tier racing teams and take your cycling career to the next level.</p>
+                <div class="d-flex flex-column gap-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary rounded-circle p-2 me-3 text-white">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <span>Access to professional coaching and training</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary rounded-circle p-2 me-3 text-white">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <span>Participate in exclusive team events</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary rounded-circle p-2 me-3 text-white">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <span>Equipment sponsorships and discounts</span>
+                    </div>
+                </div>
+                <a href="/Teams/Index" class="btn btn-primary btn-lg">Explore Teams</a>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Featured Events</h2>
-    <div class="row text-center">
+<!-- Testimonials -->
+<section class="container my-5">
+    <h2 class="text-center fw-bold mb-5">What Cyclists Say</h2>
+    <div class="row g-4">
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <a href="/Races/Details/d01499a2-e956-426e-9080-6494e307e197" h5 class="btn btn-light btn-lg">
-                        Skyline Dash</a>
-                    <p class="card-text">A thrilling road race through the heart of Velandia City. 120km of fast-paced action!</p>
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="rounded-circle overflow-hidden me-3" style="width: 60px; height: 60px;">
+                        <img src="~/images/cyclist1.jpg" alt="Cyclist" class="img-fluid">
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Sarah Johnson</h5>
+                        <p class="mb-0 text-muted">Professional Cyclist</p>
+                    </div>
                 </div>
+                <p class="mb-0">"The races organized through this platform are world-class. The competition is fierce and the courses are challenging yet enjoyable."</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <a href="/Races/Details/b8c74396-f3e4-470d-8d9c-950d0da793bb" class="btn btn-light btn-lg">
-                        Sunset Circuit</a>
-                    <p class="card-text">Sprint your way across Crestoria’s scenic hills in this exciting 85km track race.</p>
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="rounded-circle overflow-hidden me-3" style="width: 60px; height: 60px;">
+                        <img src="~/images/cyclist2.jpg" alt="Cyclist" class="img-fluid">
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Michael Chen</h5>
+                        <p class="mb-0 text-muted">Amateur Cyclist</p>
+                    </div>
                 </div>
+                <p class="mb-0">"Joining a team through this platform has transformed my cycling experience. The community is supportive and the events are well-organized."</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <a href="/Teams/Index" class="btn btn-light btn-lg">Join a Team</a>
-                    <p class="card-text">Register as a Cyclist and join one of our top-tier racing teams to compete in epic events.</p>
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="rounded-circle overflow-hidden me-3" style="width: 60px; height: 60px;">
+                        <img src="~/images/cyclist3.jpg" alt="Cyclist" class="img-fluid">
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Elena Rodriguez</h5>
+                        <p class="mb-0 text-muted">Team Manager</p>
+                    </div>
                 </div>
+                <p class="mb-0">"As a team manager, I've found this platform invaluable for discovering talent and organizing our race calendar. Highly recommended!"</p>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="cta bg-primary text-white py-5 mt-5">
-    <div class="container text-center">
-        <h2 class="mb-3">Ready to race?</h2>
-        <p class="mb-4">Sign up now and join a community of passionate cyclists and organizers.</p>
-        <a href="/Identity/Account/Register" class="btn btn-light btn-lg">Get Started</a>
+<!-- Call to Action -->
+<section class="position-relative my-5">
+    <div class="position-absolute top-0 w-100">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
+            <path fill="#0d6efd" fill-opacity="1" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,100L1360,100C1280,100,1120,100,960,100C800,100,640,100,480,100C320,100,160,100,80,100L0,100Z"></path>
+        </svg>
     </div>
-</div>
+    <div class="bg-primary text-white py-5 mt-5">
+        <div class="container text-center py-4">
+            <h2 class="fw-bold mb-3 display-5">Ready to Race?</h2>
+            <p class="mb-4 fs-5 col-md-8 mx-auto">Join a passionate community of cyclists and organizers today. Create your profile and start your cycling journey!</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/Identity/Account/Register" class="btn btn-light btn-lg shadow-sm fw-semibold">Sign Up Now</a>
+                <a href="/Races" class="btn btn-outline-light btn-lg shadow-sm">Browse Races</a>
+            </div>
+        </div>
+    </div>
+    <div class="position-absolute bottom-0 w-100" style="transform: rotate(180deg);">
+    </div>
+</section>
+
+<!-- Newsletter Signup -->
+<section class="container my-5 py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="card-body text-center">
+                    <h3 class="fw-bold mb-3">Stay Updated</h3>
+                    <p class="mb-4">Subscribe to our newsletter for the latest race announcements and cycling news.</p>
+                    <form class="row g-3 justify-content-center">
+                        <div class="col-md-8">
+                            <input type="email" class="form-control form-control-lg" placeholder="Your email address">
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,5 +1,7 @@
+using CyclingRaces.Data;
 using CyclingRaces.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CyclingRaces.Controllers
@@ -7,18 +9,26 @@ namespace CyclingRaces.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-		public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
 		{
 			_logger = logger;
-		}
+            _context = context;
+        }
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        public async Task<IActionResult> Index()
+        {
+            var featuredRaces = await _context.Races
+                .OrderByDescending(r => r.Date)
+                .Take(3)
+                .ToListAsync();
 
-		public IActionResult Privacy()
+            return View(featuredRaces);
+        }
+
+
+        public IActionResult Privacy()
 		{
 			return View();
 		}

@@ -13,6 +13,22 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\wwwroot\\images\\cycling-team.jpg",
+      "PackagePath": "staticwebassets\\images\\cycling-team.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\wwwroot\\images\\cyclist1.jpg",
+      "PackagePath": "staticwebassets\\images\\cyclist1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\wwwroot\\images\\cyclist2.jpg",
+      "PackagePath": "staticwebassets\\images\\cyclist2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\wwwroot\\images\\cyclist3.jpg",
+      "PackagePath": "staticwebassets\\images\\cyclist3.jpg"
+    },
+    {
       "Id": "C:\\Users\\Emanuil\\Desktop\\DiplomenProekt\\CyclingRaces\\CyclingRaces\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

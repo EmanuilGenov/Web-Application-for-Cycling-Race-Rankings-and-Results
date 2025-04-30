@@ -4,41 +4,245 @@
     var currentFilter = ViewData["CurrentFilter"] as string;
 }
 
-<h1>Race Results</h1>
+<!-- Page Header -->
+<div class="bg-gradient-primary-to-secondary text-white rounded-3 mb-4 p-4"
+     style="background: linear-gradient(to right, #0d6efd, #6610f2);">
+    <div class="container-fluid py-3">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold">
+                    <i class="bi bi-trophy-fill me-2"></i>Race Results
+                </h1>
+                <p class="fs-5 mb-0">View and manage all cycling race results and rankings.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a asp-action="Create" class="btn btn-light btn-lg shadow-sm">
+                    <i class="bi bi-plus-circle me-2"></i>Add New Result
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Add a New Result</a>
-</p>
+<!-- Search and Filter Card -->
+<div class="card shadow-sm mb-4 border-0 rounded-3">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="row g-3 align-items-end">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" name="searchString" value="@currentFilter"
+                           class="form-control form-control-lg"
+                           placeholder="Search by race name or cyclist..." />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-filter me-2"></i>Search Results
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<form asp-action="Index" method="get" class="form-inline mb-3">
-    <input type="text" name="searchString" value="@currentFilter" class="form-control mr-2" placeholder="Search race or cyclist" />
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
+<!-- Results Stats -->
+@if (!string.IsNullOrEmpty(currentFilter))
+{
+    <div class="alert alert-info d-flex align-items-center mb-4">
+        <i class="bi bi-info-circle-fill me-2"></i>
+        <div>
+            Showing results for: <strong>"@currentFilter"</strong>
+            <a asp-action="Index" class="btn btn-sm btn-outline-primary ms-3">Clear Search</a>
+        </div>
+    </div>
+}
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["RaceSortParm"]">Race</a></th>
-            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CyclistSortParm"]">Cyclist</a></th>
-            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["TimeSortParm"]">Time</a></th>
-            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["RankSortParm"]">Rank</a></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Race</td>
-                <td>@item.CyclistName</td>
-                <td>@(item.OverallTime?.ToString() ?? "-")</td>
-                <td>@item.OverallRank</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- Results Count -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <span class="badge bg-primary rounded-pill fs-6">@Model.Count() results found</span>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-download me-1"></i> Export
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-excel me-2"></i>Export to Excel</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>Export to PDF</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Results Table -->
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["RaceSortParm"]" class="text-decoration-none text-dark d-flex align-items-center">
+                            <i class="bi bi-flag me-2 text-primary"></i>Race
+                            @if (ViewData["CurrentSort"]?.ToString() == "race")
+                            {
+                                <i class="bi bi-arrow-up-short ms-1"></i>
+                            }
+                            else if (ViewData["CurrentSort"]?.ToString() == "race_desc")
+                            {
+                                <i class="bi bi-arrow-down-short ms-1"></i>
+                            }
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["CyclistSortParm"]" class="text-decoration-none text-dark d-flex align-items-center">
+                            <i class="bi bi-person me-2 text-success"></i>Cyclist
+                            @if (ViewData["CurrentSort"]?.ToString() == "cyclist")
+                            {
+                                <i class="bi bi-arrow-up-short ms-1"></i>
+                            }
+                            else if (ViewData["CurrentSort"]?.ToString() == "cyclist_desc")
+                            {
+                                <i class="bi bi-arrow-down-short ms-1"></i>
+                            }
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["TimeSortParm"]" class="text-decoration-none text-dark d-flex align-items-center">
+                            <i class="bi bi-stopwatch me-2 text-warning"></i>Time
+                            @if (ViewData["CurrentSort"]?.ToString() == "time")
+                            {
+                                <i class="bi bi-arrow-up-short ms-1"></i>
+                            }
+                            else if (ViewData["CurrentSort"]?.ToString() == "time_desc")
+                            {
+                                <i class="bi bi-arrow-down-short ms-1"></i>
+                            }
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["RankSortParm"]" class="text-decoration-none text-dark d-flex align-items-center">
+                            <i class="bi bi-award me-2 text-danger"></i>Rank
+                            @if (ViewData["CurrentSort"]?.ToString() == "rank")
+                            {
+                                <i class="bi bi-arrow-up-short ms-1"></i>
+                            }
+                            else if (ViewData["CurrentSort"]?.ToString() == "rank_desc")
+                            {
+                                <i class="bi bi-arrow-down-short ms-1"></i>
+                            }
+                        </a>
+                    </th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Race</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-circle bg-light text-primary me-2">
+                                        @item.CyclistName.Substring(0, 1)
+                                    </div>
+                                    @item.CyclistName
+                                </div>
+                            </td>
+                            <td>
+                                @if (item.OverallTime.HasValue)
+                                {
+                                    <span class="badge bg-light text-dark p-2">@item.OverallTime?.ToString()</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary p-2">Not recorded</span>
+                                }
+                            </td>
+                            <td>
+                                @{
+                                    string rankClass = "bg-secondary";
+                                    if (item.OverallRank == 1) rankClass = "bg-warning text-dark";
+                                    else if (item.OverallRank == 2) rankClass = "bg-secondary";
+                                    else if (item.OverallRank == 3) rankClass = "bg-danger";
+                                }
+                                <span class="badge @rankClass p-2 rounded-circle">@item.OverallRank</span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Details">
+                                        <i class="bi bi-info-circle"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Edit Result">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Result">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="py-5">
+                                <i class="bi bi-clipboard-x display-1 text-muted"></i>
+                                <h4 class="mt-3">No race results found</h4>
+                                <p class="text-muted">Try adjusting your search criteria or add new results</p>
+                                <a asp-action="Create" class="btn btn-primary mt-2">
+                                    <i class="bi bi-plus-circle me-2"></i>Add New Result
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination (if needed) -->
+@if (Model.Count() > 0)
+{
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+}
+
+<!-- CSS for avatar circles -->
+<style>
+    .avatar-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+</style>
+
+<!-- Initialize tooltips -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    });
+</script>

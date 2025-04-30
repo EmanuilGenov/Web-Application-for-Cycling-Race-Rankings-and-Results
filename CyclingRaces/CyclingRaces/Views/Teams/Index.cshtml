@@ -1,48 +1,234 @@
 ﻿@model IEnumerable<CyclingRaces.Data.Models.Team>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cycling Teams";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<!-- Page Header -->
+<div class="bg-gradient-primary-to-secondary text-white rounded-3 mb-4 p-4"
+     style="background: linear-gradient(to right, #198754, #20c997);">
+    <div class="container-fluid py-3">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold">
+                    <i class="bi bi-people-fill me-2"></i>Cycling Teams
+                </h1>
+                <p class="fs-5 mb-0">View and manage professional cycling teams and their details.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a asp-action="Create" class="btn btn-light btn-lg shadow-sm">
+                    <i class="bi bi-plus-circle me-2"></i>Create New Team
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manager)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manager)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+<!-- Search and Filter Card -->
+<div class="card shadow-sm mb-4 border-0 rounded-3">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">Search Teams</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" name="searchString" class="form-control"
+                           placeholder="Team name or manager..." />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Filter by Country</label>
+                <select name="countryFilter" class="form-select">
+                    <option value="">All Countries</option>
+                    @{
+                        var countries = Model.Select(t => t.Country).Distinct().OrderBy(c => c);
+                        foreach (var country in countries)
+                        {
+                            <option value="@country">@country</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Sort By</label>
+                <select name="sortOrder" class="form-select">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="name_desc">Name (Z-A)</option>
+                    <option value="country">Country (A-Z)</option>
+                    <option value="country_desc">Country (Z-A)</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="bi bi-filter me-2"></i>Apply
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Teams Count -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <span class="badge bg-success rounded-pill fs-6">@Model.Count() teams found</span>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-download me-1"></i> Export
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-excel me-2"></i>Export to Excel</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>Export to PDF</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Teams Cards -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm hover-shadow rounded-3 overflow-hidden">
+                <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0 fw-bold">@item.Name</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square me-2 text-warning"></i>Edit</a></li>
+                            <li><a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-info-circle me-2 text-primary"></i>Details</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="team-flag me-3">
+                            <i class="bi bi-flag-fill fs-4 text-success"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Country</h6>
+                            <p class="mb-0 text-muted">@item.Country</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="team-manager me-3">
+                            <i class="bi bi-person-badge fs-4 text-primary"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Manager</h6>
+                            <p class="mb-0 text-muted">@item.Manager</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-0 p-3">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success">
+                            <i class="bi bi-eye me-2"></i>View Team
+                        </a>
+                        <a href="#" class="btn btn-outline-primary">
+                            <i class="bi bi-person-plus me-2"></i>Members
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Alternative Table View -->
+<div class="card shadow-sm border-0 rounded-3 mb-4">
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-table me-2"></i>Teams Table View</h5>
+            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#teamsTable">
+                <i class="bi bi-arrows-expand"></i> Toggle Table
+            </button>
+        </div>
+    </div>
+    <div class="collapse" id="teamsTable">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Team Name</th>
+                        <th>Country</th>
+                        <th>Manager</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Name</td>
+                            <td>
+                                <span class="d-flex align-items-center">
+                                    <i class="bi bi-flag-fill text-success me-2"></i>
+                                    @item.Country
+                                </span>
+                            </td>
+                            <td>
+                                <span class="d-flex align-items-center">
+                                    <i class="bi bi-person-badge text-primary me-2"></i>
+                                    @item.Manager
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Details">
+                                        <i class="bi bi-info-circle"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Edit Team">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Team">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Empty State (shown when no teams are found) -->
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <div class="py-5">
+            <i class="bi bi-people-fill display-1 text-muted"></i>
+            <h3 class="mt-4">No Teams Found</h3>
+            <p class="text-muted mb-4">Get started by creating your first cycling team</p>
+            <a asp-action="Create" class="btn btn-success btn-lg">
+                <i class="bi bi-plus-circle me-2"></i>Create New Team
+            </a>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+
+<!-- Pagination (if needed) -->
+@if (Model.Count() > 9)
+{
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+}
