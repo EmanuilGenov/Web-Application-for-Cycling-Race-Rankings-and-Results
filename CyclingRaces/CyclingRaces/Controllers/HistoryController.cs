@@ -22,22 +22,31 @@ namespace CyclingRaces.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
 
-            var cyclist = await _context.Cyclists
-                .Include(o => o.Results)
-                .FirstOrDefaultAsync(o => o.UserId == userId);
-
-
-            var organiser = await _context.Organisers
-                .Include(o => o.Races)
-                .FirstOrDefaultAsync(o => o.UserId == userId); 
-
-            var viewModel = new HistoryViewModel
+            if (user == null)
             {
-                StageResults = cyclist?.Results?.ToList() ?? new List<Result>(),
-                CreatedRaces = organiser?.Races?.ToList() ?? new List<Race>()
-            };
+                return Challenge(); // Or RedirectToAction("Login", "Account");
+            }
+
+            var viewModel = new HistoryViewModel();
+
+            // Check if user is in the "Cyclist" role
+            if (await _userManager.IsInRoleAsync(user, "Cyclist"))
+            {
+                viewModel.StageResults = await _context.Results
+                    .Include(r => r.Race)
+                    .Where(r => r.CyclistId == user.Id)
+                    .ToListAsync();
+            }
+
+            // Check if user is in the "Organiser" role
+            if (await _userManager.IsInRoleAsync(user, "Organiser"))
+            {
+                viewModel.CreatedRaces = await _context.Races
+                    .Where(r => r.OrganiserId == user.Id)
+                    .ToListAsync();
+            }
 
             return View(viewModel);
         }

@@ -1,37 +1,312 @@
 ﻿@model CyclingRaces.Data.Models.Team
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Get country code for flag (this is a placeholder - you might need a mapping function)
+    string countryCode = Model.Country.Substring(0, 2).ToLower();
+
+    // Get team members count (assuming you have this relationship)
+    //int membersCount = Model.Members?.Count() ?? 0;
 }
 
-<h1>Details</h1>
+<!-- Back Button -->
+<div class="mb-4">
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Back to Teams
+    </a>
+</div>
 
-<div>
-    <h4>Team</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Manager)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Manager)
-        </dd>
-    </dl>
+<!-- Team Header -->
+<div class="card border-0 shadow-sm rounded-3 mb-4 overflow-hidden">
+    <div class="card-header bg-success text-white p-4">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <span class="badge bg-light text-dark mb-2">Cycling Team</span>
+                <h1 class="display-5 fw-bold mb-1">@Model.Name</h1>
+                <p class="mb-0 fs-5">
+                    <i class="bi bi-geo-alt-fill me-2"></i>@Model.Country
+                </p>
+            </div>
+            <div class="text-end">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-light btn-lg">
+                    <i class="bi bi-pencil-square me-2"></i>Edit Team
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<!-- Team Details -->
+<div class="row g-4 mb-5">
+    <!-- Main Details -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3 mb-4">
+            <div class="card-header bg-light py-3">
+                <h4 class="mb-0"><i class="bi bi-info-circle me-2"></i>Team Information</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-4">
+                    <!-- Team Name -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-success bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-people-fill fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Team Name</h5>
+                                <p class="mb-0 fs-5">@Model.Name</p>
+                                <small class="text-muted">Official team name</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Country -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-primary bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-globe2 fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Country</h5>
+                                <p class="mb-0 fs-5">
+                                    <span class="fi fi-@countryCode me-2"></span>
+                                    @Model.Country
+                                </p>
+                                <small class="text-muted">Team nationality</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manager -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-warning bg-gradient text-dark rounded-3 p-3 me-3">
+                                <i class="bi bi-person-badge fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Manager</h5>
+                                <p class="mb-0 fs-5">@Model.Manager</p>
+                                <small class="text-muted">Team manager</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Founded (placeholder) -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-info bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-calendar-date fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Founded</h5>
+                                <p class="mb-0 fs-5">@DateTime.Now.Year</p>
+                                <small class="text-muted">Year established</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Members -->
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i>Team Members</h4>
+                <a href="#" class="btn btn-success btn-sm">
+                    <i class="bi bi-person-plus me-2"></i>Add Member
+                </a>
+            </div>
+            <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Placeholder data - replace with actual team members -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-circle bg-primary text-white me-3">JD</div>
+                                            <div>John Doe</div>
+                                        </div>
+                                    </td>
+                                    <td>Team Captain</td>
+                                    <td>Jan 2023</td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-circle bg-success text-white me-3">JS</div>
+                                            <div>Jane Smith</div>
+                                        </div>
+                                    </td>
+                                    <td>Cyclist</td>
+                                    <td>Mar 2023</td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-circle bg-warning text-dark me-3">RJ</div>
+                                            <div>Robert Johnson</div>
+                                        </div>
+                                    </td>
+                                    <td>Cyclist</td>
+                                    <td>May 2023</td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Team Stats -->
+        <div class="card border-0 shadow-sm rounded-3 mb-4">
+            <div class="card-header bg-light py-3">
+                <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Team Statistics</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3 text-center">
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                            <div class="display-6 fw-bold text-success">3</div>
+                            <div class="small text-muted">Members</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                            <div class="display-6 fw-bold text-primary">5</div>
+                            <div class="small text-muted">Races</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                            <div class="display-6 fw-bold text-warning">2</div>
+                            <div class="small text-muted">Wins</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                            <div class="display-6 fw-bold text-danger">4</div>
+                            <div class="small text-muted">Podiums</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Manager -->
+        <div class="card border-0 shadow-sm rounded-3 mb-4">
+            <div class="card-header bg-light py-3">
+                <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Team Manager</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar-circle bg-warning text-dark me-3">
+                        @Model.Manager.Substring(0, 1).ToUpper()
+                    </div>
+                    <div>
+                        <h5 class="mb-1">@Model.Manager</h5>
+                        <p class="text-muted mb-0">Team Manager</p>
+                    </div>
+                </div>
+                <hr />
+                <a href="#" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-envelope me-2"></i>Contact Manager
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Races -->
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-light py-3">
+                <h5 class="mb-0"><i class="bi bi-flag me-2"></i>Recent Races</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <!-- Placeholder data - replace with actual races -->
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-semibold">Spring Classic</div>
+                        <small class="text-muted">May 15, 2023</small>
+                    </div>
+                    <span class="badge bg-success rounded-pill">1st</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-semibold">Mountain Challenge</div>
+                        <small class="text-muted">April 22, 2023</small>
+                    </div>
+                    <span class="badge bg-danger rounded-pill">3rd</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-semibold">City Circuit</div>
+                        <small class="text-muted">March 10, 2023</small>
+                    </div>
+                    <span class="badge bg-secondary rounded-pill">5th</span>
+                </a>
+            </div>
+            <div class="card-footer bg-white py-3">
+                <a href="#" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-list-ul me-2"></i>View All Races
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- CSS for custom elements -->
+<style>
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>

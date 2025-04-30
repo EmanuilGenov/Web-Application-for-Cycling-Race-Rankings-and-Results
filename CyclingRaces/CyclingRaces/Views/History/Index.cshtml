@@ -1,67 +1,328 @@
 ﻿@model CyclingRaces.Data.ViewModels.HistoryViewModel
 
 @{
-    ViewData["Title"] = "My Race History";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Cycling History";
 }
 
-<h2>My Race History</h2>
+<!-- Page Header -->
+<div class="bg-gradient-primary-to-secondary text-white rounded-3 mb-4 p-4"
+     style="background: linear-gradient(to right, #6f42c1, #6610f2);">
+    <div class="container-fluid py-3">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold">
+                    <i class="bi bi-clock-history me-2"></i>Your Cycling History
+                </h1>
+                <p class="fs-5 mb-0">Track your race results and created events all in one place.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a href="/Races" class="btn btn-light btn-lg shadow-sm">
+                    <i class="bi bi-flag-fill me-2"></i>Browse Races
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Stats Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 bg-light shadow-sm rounded-3 h-100">
+            <div class="card-body text-center p-4">
+                <div class="display-4 fw-bold text-primary mb-2">@Model.StageResults.Count()</div>
+                <h5 class="card-title">Race Results</h5>
+                <p class="card-text text-muted">Total races you've participated in</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 bg-light shadow-sm rounded-3 h-100">
+            <div class="card-body text-center p-4">
+                <div class="display-4 fw-bold text-success mb-2">@Model.CreatedRaces.Count()</div>
+                <h5 class="card-title">Created Races</h5>
+                <p class="card-text text-muted">Events you've organized</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 bg-light shadow-sm rounded-3 h-100">
+            <div class="card-body text-center p-4">
+                <div class="display-4 fw-bold text-warning mb-2">
+                    @Model.StageResults.Count(r => r.Rank <= 3)
+                </div>
+                <h5 class="card-title">Podium Finishes</h5>
+                <p class="card-text text-muted">Times you've placed in the top 3</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs Navigation -->
+<ul class="nav nav-tabs mb-4" id="historyTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="results-tab" data-bs-toggle="tab" data-bs-target="#results-tab-pane"
+                type="button" role="tab" aria-controls="results-tab-pane" aria-selected="true">
+            <i class="bi bi-trophy me-2"></i>Race Results
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="created-tab" data-bs-toggle="tab" data-bs-target="#created-tab-pane"
+                type="button" role="tab" aria-controls="created-tab-pane" aria-selected="false">
+            <i class="bi bi-calendar-event me-2"></i>Created Races
+        </button>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content" id="historyTabContent">
+    <!-- Race Results Tab -->
+    <div class="tab-pane fade show active" id="results-tab-pane" role="tabpanel" aria-labelledby="results-tab" tabindex="0">
+        @if (Model.StageResults.Any())
+        {
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-trophy me-2 text-warning"></i>Your Race Results
+                    </h5>
+                    <div class="input-group" style="max-width: 300px;">
+                        <input type="text" class="form-control" placeholder="Search races..." id="resultSearchInput">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="resultsTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Race</th>
+                                <th class="text-center">Position</th>
+                                <th>Time</th>
+                                <th class="text-center">Role</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var result in Model.StageResults)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@result.Race?.Name</td>
+                                    <td class="text-center">
+                                        @{
+                                            string badgeClass = "bg-secondary";
+                                            if (result.Rank == 1) badgeClass = "bg-warning text-dark";
+                                            else if (result.Rank == 2) badgeClass = "bg-light text-dark border";
+                                            else if (result.Rank == 3) badgeClass = "bg-danger";
+                                        }
+                                        <span class="badge @badgeClass rounded-pill px-3 py-2">@result.Rank</span>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-stopwatch me-2 text-primary"></i>
+                                        @result.Time
+                                    </td>
+                                    <td class="text-center">
+                                        @if (result.IsVolunteer)
+                                        {
+                                            <span class="badge bg-info text-dark">
+                                                <i class="bi bi-person-heart me-1"></i> Volunteer
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary">
+                                                <i class="bi bi-bicycle me-1"></i> Cyclist
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 bg-light rounded-3">
+                <i class="bi bi-trophy display-1 text-muted"></i>
+                <h4 class="mt-3">No Race Results Yet</h4>
+                <p class="text-muted mb-4">You haven't participated in any races yet.</p>
+                <a href="/Races" class="btn btn-primary">
+                    <i class="bi bi-flag-fill me-2"></i>Find Races to Join
+                </a>
+            </div>
+        }
+    </div>
+
+    <!-- Created Races Tab -->
+    <div class="tab-pane fade" id="created-tab-pane" role="tabpanel" aria-labelledby="created-tab" tabindex="0">
+        @if (Model.CreatedRaces.Any())
+        {
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-calendar-event me-2 text-success"></i>Races You've Created
+                    </h5>
+                    <div class="input-group" style="max-width: 300px;">
+                        <input type="text" class="form-control" placeholder="Search races..." id="createdSearchInput">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="createdTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Race Name</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var race in Model.CreatedRaces)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@race.Name</td>
+                                    <td>
+                                        <i class="bi bi-calendar3 me-2 text-primary"></i>
+                                        @race.Date.ToShortDateString()
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-geo-alt me-2 text-danger"></i>
+                                        @race.Location
+                                    </td>
+                                    <td class="text-center">
+                                        @{
+                                            string statusClass = "bg-success";
+                                            string statusText = "Active";
+                                            string statusIcon = "check-circle-fill";
+
+                                            if (race.Date < DateTime.Today)
+                                            {
+                                                statusClass = "bg-secondary";
+                                                statusText = "Completed";
+                                                statusIcon = "flag-fill";
+                                            }
+                                            else if (race.Date > DateTime.Today.AddDays(30))
+                                            {
+                                                statusClass = "bg-info text-dark";
+                                                statusText = "Upcoming";
+                                                statusIcon = "calendar-date";
+                                            }
+                                        }
+                                        <span class="badge @statusClass">
+                                            <i class="bi bi-@statusIcon me-1"></i> @statusText
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Edit Race">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" title="View Results">
+                                                <i class="bi bi-trophy"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 bg-light rounded-3">
+                <i class="bi bi-calendar-plus display-1 text-muted"></i>
+                <h4 class="mt-3">No Created Races Yet</h4>
+                <p class="text-muted mb-4">You haven't created any races yet.</p>
+                <a href="/Races/Create" class="btn btn-success">
+                    <i class="bi bi-plus-circle me-2"></i>Create Your First Race
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Empty State (shown when both lists are empty) -->
 @if (!Model.StageResults.Any() && !Model.CreatedRaces.Any())
 {
-    <p>You haven't participated in or created any races yet.</p>
+    <div class="text-center py-5 bg-light rounded-3 mt-4">
+        <i class="bi bi-emoji-smile display-1 text-muted"></i>
+        <h3 class="mt-4">Welcome to Your Cycling Journey!</h3>
+        <p class="text-muted col-md-8 mx-auto mb-4">
+            Your cycling history is currently empty. Start by joining races as a participant or volunteer,
+            or create your own races to organize events.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/Races" class="btn btn-primary btn-lg">
+                <i class="bi bi-flag-fill me-2"></i>Browse Races
+            </a>
+            <a href="/Races/Create" class="btn btn-success btn-lg">
+                <i class="bi bi-plus-circle me-2"></i>Create a Race
+            </a>
+        </div>
+    </div>
 }
 
-@if (Model.StageResults.Any())
-{
-    <h3>Races I've Participated In</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Race</th>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Time</th>
-                <th>Rank</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var r in Model.StageResults)
-            {
-                <tr>
-                    <td>@r.Race.Name</td>
-                    <td>@r.Race.Date.ToShortDateString()</td>
-                    <td>@r.Race.Location</td>
-                    <td>@r.Time?.ToString(@"hh\:mm\:ss") ?? "N/A"</td>
-                    <td>@(r.Rank == 0 ? "N/A" : r.Rank.ToString())</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<!-- Simple search functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
 
-@if (Model.CreatedRaces.Any())
-{
-    <h3>Races I've Organised</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Distance</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var race in Model.CreatedRaces)
-            {
-                <tr>
-                    <td>@race.Name</td>
-                    <td>@race.Date.ToShortDateString()</td>
-                    <td>@race.Location</td>
-                    <td>@race.Distance km</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        // Simple search for results table
+        const resultSearchInput = document.getElementById('resultSearchInput');
+        if (resultSearchInput) {
+            resultSearchInput.addEventListener('keyup', function () {
+                const searchValue = this.value.toLowerCase();
+                const table = document.getElementById('resultsTable');
+                const rows = table.getElementsByTagName('tr');
+
+                for (let i = 1; i < rows.length; i++) {
+                    const raceName = rows[i].cells[0].textContent.toLowerCase();
+                    if (raceName.includes(searchValue)) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Simple search for created races table
+        const createdSearchInput = document.getElementById('createdSearchInput');
+        if (createdSearchInput) {
+            createdSearchInput.addEventListener('keyup', function () {
+                const searchValue = this.value.toLowerCase();
+                const table = document.getElementById('createdTable');
+                const rows = table.getElementsByTagName('tr');
+
+                for (let i = 1; i < rows.length; i++) {
+                    const raceName = rows[i].cells[0].textContent.toLowerCase();
+                    const location = rows[i].cells[2].textContent.toLowerCase();
+                    if (raceName.includes(searchValue) || location.includes(searchValue)) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            });
+        }
+    });
+</script>

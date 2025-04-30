@@ -1,68 +1,333 @@
 ﻿@model CyclingRaces.Data.Models.Race
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Calculate if race is upcoming, active, or past
+    string statusClass = "bg-success";
+    string statusText = "Active";
+
+    if (Model.Date < DateTime.Today)
+    {
+        statusClass = "bg-secondary";
+        statusText = "Completed";
+    }
+    else if (Model.Date > DateTime.Today.AddDays(7))
+    {
+        statusClass = "bg-primary";
+        statusText = "Upcoming";
+    }
+
+    // Format the date
+    string formattedDate = Model.Date.ToString("dddd, MMMM d, yyyy");
+
+    // Calculate days until race
+    int daysUntil = (Model.Date.Date - DateTime.Today).Days;
+    string daysText = daysUntil == 0 ? "Today" :
+                     daysUntil < 0 ? $"{Math.Abs(daysUntil)} days ago" :
+                     $"in {daysUntil} days";
 }
 
-<h1>Details</h1>
+<!-- Back Button -->
+<div class="mb-4">
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Back to Races
+    </a>
+</div>
 
-<div>
-    <h4>Race</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Distance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Distance)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Organiser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Organiser.UserName)
-        </dd>
-    </dl>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <!-- Join as Cyclist -->
-        <form asp-action="RegisterForRace" asp-controller="Races" method="post">
-            <input type="hidden" name="raceId" value="@Model.Id" />
-            <button type="submit" class="btn btn-primary">Join Race</button>           
-        </form>
-        <!-- Join as Volunteer -->
-        <form asp-action="RegisterAsVolunteer" asp-controller="Races" method="post" class="mt-2">
-            <input type="hidden" name="raceId" value="@Model.Id" />
-            <button type="submit" class="btn btn-secondary">Join as Volunteer</button>
-        </form>
+<!-- Race Header -->
+<div class="card border-0 shadow-sm rounded-3 mb-4 overflow-hidden">
+    <div class="card-header bg-primary text-white p-4">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <span class="badge @statusClass mb-2">@statusText</span>
+                <h1 class="display-5 fw-bold mb-1">@Model.Name</h1>
+                <p class="mb-0 fs-5">
+                    <i class="bi bi-geo-alt-fill me-2"></i>@Model.Location
+                </p>
+            </div>
+            <div class="text-end">
+                @if (User.Identity.IsAuthenticated && Model.Date >= DateTime.Today)
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-plus-fill me-2"></i>Join Race
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <form asp-action="RegisterForRace" asp-controller="Races" method="post" class="dropdown-item-form">
+                                    <input type="hidden" name="raceId" value="@Model.Id" />
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="bi bi-bicycle me-2 text-primary"></i>Join as Cyclist
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-action="RegisterAsVolunteer" asp-controller="Races" method="post" class="dropdown-item-form">
+                                    <input type="hidden" name="raceId" value="@Model.Id" />
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="bi bi-person-heart me-2 text-success"></i>Join as Volunteer
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Race Details -->
+<div class="row g-4 mb-5">
+    <!-- Main Details -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-light py-3">
+                <h4 class="mb-0"><i class="bi bi-info-circle me-2"></i>Race Details</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-4">
+                    <!-- Date -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-primary bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-calendar-event fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Date</h5>
+                                <p class="mb-0">@formattedDate</p>
+                                <small class="text-muted">@daysText</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Type -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-success bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-tag fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Race Type</h5>
+                                <p class="mb-0">@Model.Type</p>
+                                <small class="text-muted">Classification</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Distance -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-warning bg-gradient text-dark rounded-3 p-3 me-3">
+                                <i class="bi bi-rulers fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Distance</h5>
+                                <p class="mb-0">@Model.Distance km</p>
+                                <small class="text-muted">Total race length</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Organiser -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-info bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-person-badge fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Organiser</h5>
+                                <p class="mb-0">@Model.Organiser.UserName</p>
+                                <small class="text-muted">Race coordinator</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="#" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="bi bi-share me-1"></i>Share
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-star me-1"></i>Save
+                        </a>
+                    </div>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || Model.Organiser.UserName == User.Identity.Name))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Race
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Location Map -->
+        <div class="card border-0 shadow-sm rounded-3 mb-4">
+            <div class="card-header bg-light py-3">
+                <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Location</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="map-placeholder bg-light text-center py-5">
+                    <i class="bi bi-map display-1 text-muted"></i>
+                    <p class="mt-3 mb-0">@Model.Location</p>
+                    <small class="text-muted">Map preview would appear here</small>
+                </div>
+            </div>
+            <div class="card-footer bg-white py-3">
+                <a href="https://maps.google.com/?q=@Model.Location" target="_blank" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-box-arrow-up-right me-2"></i>Open in Google Maps
+                </a>
+            </div>
+        </div>
+
+        <!-- Race Countdown -->
+        @if (Model.Date >= DateTime.Today)
+        {
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-light py-3">
+                    <h5 class="mb-0"><i class="bi bi-stopwatch me-2"></i>Race Countdown</h5>
+                </div>
+                <div class="card-body text-center p-4">
+                    <div class="display-6 fw-bold text-primary mb-2">@daysText</div>
+                    <p class="mb-0">@formattedDate</p>
+
+                    @if (User.Identity.IsAuthenticated && Model.Date >= DateTime.Today)
+                    {
+                        <div class="mt-4">
+                            <form asp-action="RegisterForRace" asp-controller="Races" method="post">
+                                <input type="hidden" name="raceId" value="@Model.Id" />
+                                <button type="submit" class="btn btn-primary w-100 mb-2">
+                                    <i class="bi bi-bicycle me-2"></i>Join as Cyclist
+                                </button>
+                            </form>
+                            <form asp-action="RegisterAsVolunteer" asp-controller="Races" method="post">
+                                <input type="hidden" name="raceId" value="@Model.Id" />
+                                <button type="submit" class="btn btn-success w-100">
+                                    <i class="bi bi-person-heart me-2"></i>Join as Volunteer
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <!-- Organiser Info -->
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-light py-3">
+                <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Organiser</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-circle bg-primary text-white me-3">
+                        @Model.Organiser.UserName.Substring(0, 1).ToUpper()
+                    </div>
+                    <div>
+                        <h5 class="mb-1">@Model.Organiser.UserName</h5>
+                        <p class="text-muted mb-0">Race Organiser</p>
+                    </div>
+                </div>
+                <hr />
+                <a href="#" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-envelope me-2"></i>Contact Organiser
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Races (if available) -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+    <div class="card-header bg-light py-3">
+        <h4 class="mb-0"><i class="bi bi-link-45deg me-2"></i>Related Races</h4>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3">Similar Race in @Model.Location</h5>
+                        <p class="card-text">Another @Model.Type race in the same location.</p>
+                        <a href="#" class="btn btn-outline-primary">View Race</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3">Upcoming @Model.Type Race</h5>
+                        <p class="card-text">Next scheduled race of the same type.</p>
+                        <a href="#" class="btn btn-outline-primary">View Race</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3">More by this Organiser</h5>
+                        <p class="card-text">See other races by @Model.Organiser.UserName.</p>
+                        <a href="#" class="btn btn-outline-primary">View Races</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS for custom elements -->
+<style>
+    .dropdown-item-form {
+        display: block;
+        width: 100%;
+        padding: 0;
     }
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+        .dropdown-item-form .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: .25rem 1.5rem;
+            clear: both;
+            text-align: inherit;
+            background: none;
+            border: 0;
+        }
+
+            .dropdown-item-form .dropdown-item:hover {
+                color: #16181b;
+                text-decoration: none;
+                background-color: #f8f9fa;
+            }
+
+    .avatar-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        transition: all 0.3s ease;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>

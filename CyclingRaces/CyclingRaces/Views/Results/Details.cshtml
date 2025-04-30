@@ -2,26 +2,302 @@
 
 @{
     ViewData["Title"] = "Result Details";
+
+    // Determine medal class based on rank
+    string medalClass = "bg-secondary";
+    string medalIcon = "award";
+
+    if (Model.OverallRank == 1)
+    {
+        medalClass = "bg-warning text-dark";
+        medalIcon = "trophy";
+    }
+    else if (Model.OverallRank == 2)
+    {
+        medalClass = "bg-light text-dark border";
+        medalIcon = "award";
+    }
+    else if (Model.OverallRank == 3)
+    {
+        medalClass = "bg-danger";
+        medalIcon = "award";
+    }
 }
 
-<h1>Result Details</h1>
-
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">Race</dt>
-        <dd class="col-sm-10">@Model.Race</dd>
-
-        <dt class="col-sm-2">Cyclist</dt>
-        <dd class="col-sm-10">@Model.CyclistName</dd>
-
-        <dt class="col-sm-2">Time</dt>
-        <dd class="col-sm-10">@Model.OverallTime</dd>
-
-        <dt class="col-sm-2">Rank</dt>
-        <dd class="col-sm-10">@Model.OverallRank</dd>
-    </dl>
+<!-- Back Button -->
+<div class="mb-4">
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Back to Results
+    </a>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<!-- Result Header -->
+<div class="card border-0 shadow-sm rounded-3 mb-4 overflow-hidden">
+    <div class="card-header bg-primary text-white p-4">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <h1 class="display-5 fw-bold mb-1">Race Result</h1>
+                <p class="mb-0 fs-5">
+                    <i class="bi bi-flag-fill me-2"></i>@Model.Race
+                </p>
+            </div>
+            <div class="text-end">
+                <span class="badge @medalClass p-3 rounded-circle fs-4">
+                    <i class="bi bi-@medalIcon"></i>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Result Details -->
+<div class="row g-4 mb-5">
+    <!-- Main Details -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-light py-3">
+                <h4 class="mb-0"><i class="bi bi-info-circle me-2"></i>Result Information</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-4">
+                    <!-- Cyclist -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-primary bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-person-circle fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Cyclist</h5>
+                                <p class="mb-0">@Model.CyclistName</p>
+                                <small class="text-muted">Participant</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Race -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-success bg-gradient text-white rounded-3 p-3 me-3">
+                                <i class="bi bi-flag fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Race</h5>
+                                <p class="mb-0">@Model.Race</p>
+                                <small class="text-muted">Event</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon bg-warning bg-gradient text-dark rounded-3 p-3 me-3">
+                                <i class="bi bi-stopwatch fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Time</h5>
+                                <p class="mb-0 fs-4">@(Model.OverallTime?.ToString() ?? "N/A")</p>
+                                <small class="text-muted">Overall completion time</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rank -->
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <div class="feature-icon @medalClass rounded-3 p-3 me-3">
+                                <i class="bi bi-@medalIcon fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">Rank</h5>
+                                <p class="mb-0 fs-4">@Model.OverallRank</p>
+                                <small class="text-muted">Final position</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="#" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="bi bi-share me-1"></i>Share
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-printer me-1"></i>Print
+                        </a>
+                    </div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                        <i class="bi bi-pencil-square me-2"></i>Edit Result
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Performance Card -->
+        <div class="card border-0 shadow-sm rounded-3 mb-4">
+            <div class="card-header bg-light py-3">
+                <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Performance</h5>
+            </div>
+            <div class="card-body p-4">
+                <!-- Rank Visualization -->
+                <div class="text-center mb-4">
+                    <div class="display-1 fw-bold @(Model.OverallRank <= 3 ? "text-warning" : "text-muted")">
+                        #@Model.OverallRank
+                    </div>
+                    <p class="mb-0">
+                        @if (Model.OverallRank == 1)
+                        {
+                            <span class="badge bg-warning text-dark px-3 py-2">Gold Medal</span>
+                        }
+                        else if (Model.OverallRank == 2)
+                        {
+                            <span class="badge bg-light text-dark border px-3 py-2">Silver Medal</span>
+                        }
+                        else if (Model.OverallRank == 3)
+                        {
+                            <span class="badge bg-danger px-3 py-2">Bronze Medal</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary px-3 py-2">Participant</span>
+                        }
+                    </p>
+                </div>
+
+                <!-- Time Visualization -->
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-2">Completion Time</h6>
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"
+                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                            @(Model.OverallTime?.ToString() ?? "N/A")
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison (placeholder) -->
+                <div>
+                    <h6 class="fw-bold mb-2">Comparison to Average</h6>
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="me-2 text-success"><i class="bi bi-arrow-up"></i></div>
+                        <div class="flex-grow-1">
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 15%;"
+                                     aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="ms-2 small">15% faster</div>
+                    </div>
+                    <small class="text-muted">Based on average completion time for this race</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cyclist Info -->
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-light py-3">
+                <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Cyclist Profile</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar-circle bg-primary text-white me-3">
+                        @Model.CyclistName.Substring(0, 1).ToUpper()
+                    </div>
+                    <div>
+                        <h5 class="mb-1">@Model.CyclistName</h5>
+                        <p class="text-muted mb-0">Cyclist</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="row text-center g-3">
+                    <div class="col-4">
+                        <div class="fw-bold">5</div>
+                        <small class="text-muted">Races</small>
+                    </div>
+                    <div class="col-4">
+                        <div class="fw-bold">2</div>
+                        <small class="text-muted">Medals</small>
+                    </div>
+                    <div class="col-4">
+                        <div class="fw-bold">3rd</div>
+                        <small class="text-muted">Best Rank</small>
+                    </div>
+                </div>
+                <hr />
+                <a href="#" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-person-badge me-2"></i>View Full Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Results -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+    <div class="card-header bg-light py-3">
+        <h4 class="mb-0"><i class="bi bi-link-45deg me-2"></i>Related Results</h4>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Other Results in this Race</h5>
+                        <p class="card-text">View all results for @Model.Race.</p>
+                        <a href="#" class="btn btn-outline-primary">View Results</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">@Model.CyclistName's History</h5>
+                        <p class="card-text">View all race results for this cyclist.</p>
+                        <a href="#" class="btn btn-outline-primary">View History</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Similar Races</h5>
+                        <p class="card-text">Find upcoming races similar to this one.</p>
+                        <a href="#" class="btn btn-outline-primary">Find Races</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS for custom elements -->
+<style>
+    .avatar-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        transition: all 0.3s ease;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
